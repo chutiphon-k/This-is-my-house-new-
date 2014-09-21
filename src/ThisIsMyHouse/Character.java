@@ -47,6 +47,11 @@ public class Character {
 			x = GameMain.GAME_WIDTH-WIDTH;
 		}
 	}
+
+	public void jump() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

@@ -68,12 +68,12 @@ public class GameMain extends BasicGame {
 	}
 	
 	
-//	@Override
-//	public void keyPressed(int key, char c) {
-//		// TODO Auto-generated method stub
-//	    if (key == Input.KEY_UP) {
-//	    	character.jump();
-//	    }
-//	}
+	@Override
+	public void keyPressed(int key, char c) {
+		// TODO Auto-generated method stub
+	    if (key == Input.KEY_UP) {
+	    	character.jump();
+	    }
+	}
 
 }
