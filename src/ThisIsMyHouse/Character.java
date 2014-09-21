@@ -27,7 +27,14 @@ public class Character {
 	}
 	
 	public void update() {
-		
+		y +=vy;
+		if(y<GameMain.GAME_HEIGHT-HEIGHT){
+		vy += GameMain.G;
+		}
+		else{
+		y = GameMain.GAME_HEIGHT-HEIGHT;
+		vy=0;
+		}
 	}
 
 	public void MoveLeft() {
@@ -49,7 +56,9 @@ public class Character {
 	}
 
 	public void jump() {
-		
+		if(y>=GameMain.GAME_HEIGHT-HEIGHT){
+			vy = -vjump;
+		}
 	}
 	
 	
