@@ -39,6 +39,10 @@ public class Character {
 			vy=0;
 			PointJump = 1;
 		}
+		if(y<=0){
+			y = 0;
+			jumpDown();
+		}
 		collider();
 		
 	}
@@ -95,22 +99,20 @@ public class Character {
 	}
 	
 	public boolean ColliderWithPodiumDownCenter(){
-		if((x>=GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 - Character.WIDTH + 25 && x<=GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - Character.WIDTH + 25) 
+		if((x>=GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 - Character.WIDTH + 25 && x<=GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - 25) 
 				&& (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumDownCenter && y> GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUpCenter)){
 			return true;
 		}
 		return false;
 	}
 	
-//	public boolean ColliderWithPodiumUpCenter(){
-//		if((x>=0 && x<=Podium.WIDTH-25) && (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT/2 && y>= GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT)){
-//			return true;
-//		}
-//		if((x>=GameMain.GAME_WIDTH+25 - Podium.WIDTH - Character.WIDTH && x<=GameMain.GAME_WIDTH) && (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT/2 && y>= GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT)){
-//			return true;
-//		}
-//		return false;
-//	}
+	public boolean ColliderWithPodiumUpCenter(){
+		if((x>=GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 - Character.WIDTH + 25 && x<=GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - 25) 
+				&& (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUpCenter - HEIGHT/2  && y> GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUpCenter  - HEIGHT)){
+			return true;
+		}
+		return false;
+	}
 	
 	public void collider() {
 		if(ColliderWithPodiumDown()==true){
@@ -118,13 +120,18 @@ public class Character {
 			jumpDown();
 		}
 		else if(ColliderWithPodiumUp()==true){
-			y = GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - Character.HEIGHT;
+			y = GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT;
 			vy = 0;
 			PointJump = 1;
 		}
 		if(ColliderWithPodiumDownCenter()==true){
 			y = GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumDownCenter;
 			jumpDown();
+		}
+		else if(ColliderWithPodiumUpCenter()==true){
+			y = GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUpCenter - HEIGHT;
+			vy = 0;
+			PointJump = 1;
 		}
 	}
 	
