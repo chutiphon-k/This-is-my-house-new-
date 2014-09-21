@@ -19,7 +19,8 @@ public class GameMain extends BasicGame {
 	public static final float Character_MOVE_VX =  (float)5;
 	public static final float DistanceBottomAndPodiumUp = 200;
 	public static final float DistanceBottomAndPodiumDown = DistanceBottomAndPodiumUp - Podium.HEIGHT;
-	
+	public static final float DistanceBottomAndPodiumUpCenter = DistanceBottomAndPodiumUp*2;
+	public static final float DistanceBottomAndPodiumDownCenter = DistanceBottomAndPodiumUpCenter - Podium.HEIGHT;
 	
 	
 
@@ -79,7 +80,7 @@ public class GameMain extends BasicGame {
 	public void keyPressed(int key, char c) {
 		// TODO Auto-generated method stub
 	    if (key == Input.KEY_UP) {
-	    	character.jump();
+	    	character.jumpUp();
 	    }
 	}
 	
@@ -87,7 +88,7 @@ public class GameMain extends BasicGame {
 	    podium = new Podium[3];
 		podium[0] = new Podium(0,GAME_HEIGHT-DistanceBottomAndPodiumUp);
 		podium[1] = new Podium(GAME_WIDTH-Podium.WIDTH,GAME_HEIGHT-DistanceBottomAndPodiumUp);
-		podium[2] = new Podium(GAME_WIDTH/2 - Podium.WIDTH/2,GAME_HEIGHT - DistanceBottomAndPodiumUp*2);
+		podium[2] = new Podium(GAME_WIDTH/2 - Podium.WIDTH/2,GAME_HEIGHT - DistanceBottomAndPodiumUpCenter);
 	}
 
 }

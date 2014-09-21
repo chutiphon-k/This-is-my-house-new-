@@ -12,6 +12,9 @@ public class Character {
 	private Image image;
 	public static final int WIDTH = 105;
 	public static final int HEIGHT = 140;
+	public static final int WIDTH_Collider = 90;
+	public static final int HEIGHT_Collider = 130;
+	public static int PointJump;
 	
 	public Character(float x, float y , float vx , float vy) throws SlickException {
 	    this.x = x;
@@ -29,12 +32,15 @@ public class Character {
 	public void update() {
 		y +=vy;
 		if(y<GameMain.GAME_HEIGHT-HEIGHT){
-		vy += GameMain.G;
+			jumpDown();
 		}
-		else{
-		y = GameMain.GAME_HEIGHT-HEIGHT;
-		vy=0;
+		if(y>=GameMain.GAME_HEIGHT-HEIGHT){
+			y = GameMain.GAME_HEIGHT-HEIGHT;
+			vy=0;
+			PointJump = 1;
 		}
+		collider();
+		
 	}
 
 	public void MoveLeft() {
@@ -55,11 +61,71 @@ public class Character {
 		}
 	}
 
-	public void jump() {
-		if(y>=GameMain.GAME_HEIGHT-HEIGHT){
+	public void jumpUp() {
+		if(PointJump==1){
 			vy = -vjump;
+			PointJump = 0;
 		}
 	}
 	
+	public void jumpDown() {
+		vy += GameMain.G;
+		}
+	
+	public boolean ColliderWithPodiumDown(){
+		if((x>=0 && x<=Podium.WIDTH-25) && (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumDown && y> GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp)){
+			return true;
+		}
+		if((x>=GameMain.GAME_WIDTH+25 - Podium.WIDTH - Character.WIDTH && x<=GameMain.GAME_WIDTH) && (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumDown && y> GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp)){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean ColliderWithPodiumUp(){
+		if((x>=0 && x<=Podium.WIDTH-25) 
+				&& (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT/2 && y>= GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT)){
+			return true;
+		}
+		if((x>=GameMain.GAME_WIDTH+25 - Podium.WIDTH - Character.WIDTH && x<=GameMain.GAME_WIDTH) 
+				&& (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT/2 && y>= GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT)){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean ColliderWithPodiumDownCenter(){
+		if((x>=GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 - Character.WIDTH + 25 && x<=GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - Character.WIDTH + 25) 
+				&& (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumDownCenter && y> GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUpCenter)){
+			return true;
+		}
+		return false;
+	}
+	
+//	public boolean ColliderWithPodiumUpCenter(){
+//		if((x>=0 && x<=Podium.WIDTH-25) && (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT/2 && y>= GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT)){
+//			return true;
+//		}
+//		if((x>=GameMain.GAME_WIDTH+25 - Podium.WIDTH - Character.WIDTH && x<=GameMain.GAME_WIDTH) && (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT/2 && y>= GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT)){
+//			return true;
+//		}
+//		return false;
+//	}
+	
+	public void collider() {
+		if(ColliderWithPodiumDown()==true){
+			y = GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumDown;
+			jumpDown();
+		}
+		else if(ColliderWithPodiumUp()==true){
+			y = GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - Character.HEIGHT;
+			vy = 0;
+			PointJump = 1;
+		}
+		if(ColliderWithPodiumDownCenter()==true){
+			y = GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumDownCenter;
+			jumpDown();
+		}
+	}
 	
 }
