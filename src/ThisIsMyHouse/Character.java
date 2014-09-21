@@ -49,7 +49,6 @@ public class Character {
 	}
 
 	public void jump() {
-		// TODO Auto-generated method stub
 		
 	}
 	
