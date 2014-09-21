@@ -43,6 +43,10 @@ public class Character {
 			y = 0;
 			jumpDown();
 		}
+		if(x>=Podium.WIDTH + 25 - Character.WIDTH && x<=GameMain.GAME_WIDTH - Podium.WIDTH - 25 
+				&& (y<GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumDown - HEIGHT/2 && y> GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT)){
+			PointJump = 0;
+		}
 		collider();
 		
 	}
@@ -88,11 +92,11 @@ public class Character {
 	
 	public boolean ColliderWithPodiumUp(){
 		if((x>=0 && x<=Podium.WIDTH-25) 
-				&& (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT/2 && y>= GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT)){
+				&& (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT/1.2 && y>= GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT)){
 			return true;
 		}
 		if((x>=GameMain.GAME_WIDTH+25 - Podium.WIDTH - Character.WIDTH && x<=GameMain.GAME_WIDTH) 
-				&& (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT/2 && y>= GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT)){
+				&& (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT/1.2 && y>= GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT)){
 			return true;
 		}
 		return false;
@@ -107,8 +111,8 @@ public class Character {
 	}
 	
 	public boolean ColliderWithPodiumUpCenter(){
-		if((x>=GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 - Character.WIDTH + 25 && x<=GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - 25) 
-				&& (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUpCenter - HEIGHT/2  && y> GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUpCenter  - HEIGHT)){
+		if((x>=GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 - Character.WIDTH +25 && x<=GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - 25) 
+				&& (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUpCenter - HEIGHT/1.2  && y> GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUpCenter  - HEIGHT)){
 			return true;
 		}
 		return false;
