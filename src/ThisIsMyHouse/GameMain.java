@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 public class GameMain extends BasicGame {
 	private Image BGImage;
 	private Podium[] podium;
+	private Dimension[] dimension;
 	private static Character character;
 	public static final int GAME_WIDTH = 800;
 	public static final int GAME_HEIGHT = 600;
@@ -48,6 +49,9 @@ public class GameMain extends BasicGame {
 	    for (Podium podiums : podium) {
 	    	podiums.render();
 	    }
+	    for (Dimension dimensions : dimension) {
+	    	dimensions.render();
+	    }
 		character.render();
 	}
 
@@ -56,6 +60,7 @@ public class GameMain extends BasicGame {
 		BGImage = new Image("res/BG/BGbedroom.png");
 		character = new Character(GAME_WIDTH/2 - Character.WIDTH/2,GAME_HEIGHT-Character.HEIGHT,Character_MOVE_VX,Character_JUMP_VY);
 		initPodium();
+		initDimension();
 	}
 
 	@Override
@@ -78,7 +83,6 @@ public class GameMain extends BasicGame {
 	
 	@Override
 	public void keyPressed(int key, char c) {
-		// TODO Auto-generated method stub
 	    if (key == Input.KEY_UP) {
 	    	character.jumpUp();
 	    }
@@ -89,6 +93,15 @@ public class GameMain extends BasicGame {
 		podium[0] = new Podium(0,GAME_HEIGHT-DistanceBottomAndPodiumUp);
 		podium[1] = new Podium(GAME_WIDTH-Podium.WIDTH,GAME_HEIGHT-DistanceBottomAndPodiumUp);
 		podium[2] = new Podium(GAME_WIDTH/2 - Podium.WIDTH/2,GAME_HEIGHT - DistanceBottomAndPodiumUpCenter);
+	}
+	
+	public void initDimension() throws SlickException {
+	    dimension = new Dimension[5];
+	    dimension[0] = new Dimension(0,GAME_HEIGHT-Dimension.HEIGHT);
+	    dimension[1] = new Dimension(0,GAME_HEIGHT-DistanceBottomAndPodiumUp - Dimension.HEIGHT);
+	    dimension[2] = new Dimension(GAME_WIDTH/2 - Dimension.WIDTH/2,GAME_HEIGHT-DistanceBottomAndPodiumUpCenter - Dimension.HEIGHT);
+	    dimension[3] = new Dimension(GAME_WIDTH - Dimension.WIDTH,GAME_HEIGHT-DistanceBottomAndPodiumUp - Dimension.HEIGHT);
+	    dimension[4] = new Dimension(GAME_WIDTH - Dimension.WIDTH,GAME_HEIGHT-Dimension.HEIGHT);
 	}
 
 }
