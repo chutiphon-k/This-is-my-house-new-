@@ -7,8 +7,8 @@ public class Dimension {
 		private float x;
 		private float y;
 		private Image image;
-		public static final int WIDTH = 150;
-		public static final int HEIGHT = 145;
+		public static final int WIDTH = 120;
+		public static final int HEIGHT = 120;
 		
 		
 		public Dimension(float x, float y) throws SlickException {

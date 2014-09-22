@@ -10,8 +10,8 @@ public class Character {
 	private float vy;
 	private float vjump;
 	private Image image;
-	public static final int WIDTH = 105;
-	public static final int HEIGHT = 140;
+	public static final int WIDTH = 83;
+	public static final int HEIGHT = 110;
 	public static final int WIDTH_Collider = 90;
 	public static final int HEIGHT_Collider = 130;
 	public static int PointJump;
@@ -22,7 +22,7 @@ public class Character {
 	    this.vx = vx;
 	    this.vy = vy;
 	    this.vjump = vy;
-	    image = new Image("res/Character/Character0.png");
+	    image = new Image("res/Character/Chracter2.png");
 	}
 	
 	public void render() {
@@ -81,10 +81,12 @@ public class Character {
 		}
 	
 	public boolean ColliderWithPodiumDown(){
-		if((x>=0 && x<=Podium.WIDTH-25) && (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumDown && y> GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp)){
+		if((x>=0 && x<=Podium.WIDTH-25) 
+				&& (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumDown && y> GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp)){
 			return true;
 		}
-		if((x>=GameMain.GAME_WIDTH+25 - Podium.WIDTH - Character.WIDTH && x<=GameMain.GAME_WIDTH) && (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumDown && y> GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp)){
+		if((x>=GameMain.GAME_WIDTH+25 - Podium.WIDTH - Character.WIDTH && x<=GameMain.GAME_WIDTH) 
+				&& (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumDown && y> GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp)){
 			return true;
 		}
 		return false;

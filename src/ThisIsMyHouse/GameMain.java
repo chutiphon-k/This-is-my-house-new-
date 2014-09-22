@@ -12,7 +12,9 @@ public class GameMain extends BasicGame {
 	private Image BGImage;
 	private Podium[] podium;
 	private Dimension[] dimension;
+	private Monster monster;
 	private static Character character;
+	private Time time;
 	public static final int GAME_WIDTH = 800;
 	public static final int GAME_HEIGHT = 600;
 	public static final float G =  (float)1;
@@ -22,6 +24,8 @@ public class GameMain extends BasicGame {
 	public static final float DistanceBottomAndPodiumDown = DistanceBottomAndPodiumUp - Podium.HEIGHT;
 	public static final float DistanceBottomAndPodiumUpCenter = DistanceBottomAndPodiumUp*2;
 	public static final float DistanceBottomAndPodiumDownCenter = DistanceBottomAndPodiumUpCenter - Podium.HEIGHT;
+	public static final float Monster_JUMP_VY =  (float)22;
+	public static final float Monster_MOVE_VX =  (float)7;
 	
 	
 
@@ -44,7 +48,7 @@ public class GameMain extends BasicGame {
 	}
 
 	@Override
-	public void render(GameContainer arg0, Graphics arg1) throws SlickException {
+	public void render(GameContainer arg0, Graphics graphics) throws SlickException {
 		BGImage.draw(0,0);
 	    for (Podium podiums : podium) {
 	    	podiums.render();
@@ -53,21 +57,29 @@ public class GameMain extends BasicGame {
 	    	dimensions.render();
 	    }
 		character.render();
+	    monster.render();
+	    graphics.drawString("Time : " + time.getTime(),100, 10);
+
 	}
 
 	@Override
 	public void init(GameContainer arg0) throws SlickException {
 		BGImage = new Image("res/BG/BGbedroom.png");
 		character = new Character(GAME_WIDTH/2 - Character.WIDTH/2,GAME_HEIGHT-Character.HEIGHT,Character_MOVE_VX,Character_JUMP_VY);
+		time = new Time();
 		initPodium();
 		initDimension();
+		initMonster();
 	}
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
+		time.update(delta);
 		character.update();
 		Input input = container.getInput();
 		updateCharacterMovement(input,delta);
+		monster.update();
+		
 		
 	}
 	
@@ -104,4 +116,8 @@ public class GameMain extends BasicGame {
 	    dimension[4] = new Dimension(GAME_WIDTH - Dimension.WIDTH,GAME_HEIGHT-Dimension.HEIGHT);
 	}
 
+	public void initMonster() throws SlickException {
+	    monster = new Monster(Dimension.WIDTH/2 -50,GAME_HEIGHT-Monster.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
+	}
+	
 }
