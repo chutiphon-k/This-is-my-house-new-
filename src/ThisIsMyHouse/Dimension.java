@@ -8,7 +8,7 @@ public class Dimension {
 		private float y;
 		private Image image;
 		public static final int WIDTH = 120;
-		public static final int HEIGHT = 120;
+		public static final int HEIGHT = 140;
 		
 		
 		public Dimension(float x, float y) throws SlickException {
