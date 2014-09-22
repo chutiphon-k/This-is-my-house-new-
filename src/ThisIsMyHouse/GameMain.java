@@ -20,6 +20,7 @@ public class GameMain extends BasicGame {
 	private Time time;
 	public static final int GAME_WIDTH = 800;
 	public static final int GAME_HEIGHT = 600;
+	public static final int platform = 55;
 	public static final float G =  (float)1;
 	public static final float GMonster =  (float)0.5;
 	public static final float Character_JUMP_VY =  (float)22;
@@ -30,6 +31,7 @@ public class GameMain extends BasicGame {
 	public static final float DistanceBottomAndPodiumDownCenter = DistanceBottomAndPodiumUpCenter - Podium.HEIGHT;
 	public static final float Monster_JUMP_VY =  (float)8;
 	public static final float Monster_MOVE_VX =  (float)3;
+	
 	
 	
 
@@ -70,7 +72,7 @@ public class GameMain extends BasicGame {
 
 	@Override
 	public void init(GameContainer arg0) throws SlickException {
-		BGImage = new Image("res/BG/BGbedroom.png");
+		BGImage = new Image("res/BG/BG.png");
 		character = new Character(GAME_WIDTH/2 - Character.WIDTH/2,GAME_HEIGHT-Character.HEIGHT,Character_MOVE_VX,Character_JUMP_VY);
 		time = new Time();
 		initPodium();
@@ -123,7 +125,7 @@ public class GameMain extends BasicGame {
 	}
 
 	public void initMonster() throws SlickException {
-	    monster = new Monster(Dimension.WIDTH/2 -50,GAME_HEIGHT-Monster.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
+	    monster = new Monster(Dimension.WIDTH/2 - Monster.WIDTH/2,GAME_HEIGHT-Monster.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
 	}
 	
 }

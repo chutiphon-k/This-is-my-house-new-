@@ -128,7 +128,7 @@ public class Character {
 			jumpDown();
 		}
 		else if(ColliderWithPodiumUp()==true){
-			y = GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT;
+			y = GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT ;
 			vy = 0;
 			PointJump = 1;
 		}
