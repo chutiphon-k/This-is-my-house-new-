@@ -10,11 +10,13 @@ public class Monster {
 	private float y;
 	private float vx;
 	private float vy;
+	private float vjump;
 	private Random random = new Random();
 	private Image image;
-	public static final int WIDTH = 120;
-	public static final int HEIGHT = 95;
+	public static final int WIDTH = 80;
+	public static final int HEIGHT = 65;
 	public static String Direction = "R";
+	public static int PointJump=1;
 	
 	
 	
@@ -23,7 +25,8 @@ public class Monster {
 	    this.y = y;
 	    this.vx = vx;
 	    this.vy = vy;
-	    image = new Image("res/Monster/slime12.png");
+	    this.vjump = vy;
+	    image = new Image("res/Monster/slime0.png");
 	}
 	
 	public void render() {
@@ -32,6 +35,21 @@ public class Monster {
 	
 	public void update(){
 		Movement();
+		jumpUp();
+		y +=vy;
+		if(y<GameMain.GAME_HEIGHT-HEIGHT){
+			jumpDown();
+		}
+		if(y>=GameMain.GAME_HEIGHT-HEIGHT){
+			y = GameMain.GAME_HEIGHT-HEIGHT;
+			vy=0;
+			PointJump = 1;
+		}
+		if(y<=0){
+			y = 0;
+			jumpDown();
+		}
+		collider();
 	}
 	
 	public void MoveLeft() {
@@ -62,4 +80,50 @@ public class Monster {
 			MoveRight();
 		}
 	}
+	
+	public void jumpUp() {
+		if(PointJump==1){
+			vy = -vjump;
+			PointJump = 0;
+		}
+	}
+	
+	public void jumpDown() {
+		vy += GameMain.GMonster;
+		}
+	
+	public boolean ColliderWithPodiumUp(){
+		if((x>=0 && x<=Podium.WIDTH-25) 
+				&& (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT/1.2 && y>= GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT)){
+			return true;
+		}
+		if((x>=GameMain.GAME_WIDTH+25 - Podium.WIDTH - Character.WIDTH && x<=GameMain.GAME_WIDTH) 
+				&& (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT/1.2 && y>= GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT)){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean ColliderWithPodiumUpCenter(){
+		if((x>=GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 - Character.WIDTH +25 && x<=GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - 25) 
+				&& (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUpCenter - HEIGHT/1.2  && y> GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUpCenter  - HEIGHT)){
+			return true;
+		}
+		return false;
+	}
+	
+	public void collider() {
+		if(ColliderWithPodiumUp()==true){
+			y = GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT;
+			vy = 0;
+			PointJump = 1;
+		}
+		if(ColliderWithPodiumUpCenter()==true){
+			y = GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUpCenter - HEIGHT;
+			vy = 0;
+			PointJump = 1;
+		}
+	}
+	
+	
 }

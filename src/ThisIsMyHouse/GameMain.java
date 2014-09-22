@@ -1,7 +1,9 @@
 package ThisIsMyHouse;
 
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -14,18 +16,20 @@ public class GameMain extends BasicGame {
 	private Dimension[] dimension;
 	private Monster monster;
 	private static Character character;
+	private Color color;
 	private Time time;
 	public static final int GAME_WIDTH = 800;
 	public static final int GAME_HEIGHT = 600;
 	public static final float G =  (float)1;
+	public static final float GMonster =  (float)0.5;
 	public static final float Character_JUMP_VY =  (float)22;
 	public static final float Character_MOVE_VX =  (float)5;
 	public static final float DistanceBottomAndPodiumUp = 200;
 	public static final float DistanceBottomAndPodiumDown = DistanceBottomAndPodiumUp - Podium.HEIGHT;
 	public static final float DistanceBottomAndPodiumUpCenter = DistanceBottomAndPodiumUp*2;
 	public static final float DistanceBottomAndPodiumDownCenter = DistanceBottomAndPodiumUpCenter - Podium.HEIGHT;
-	public static final float Monster_JUMP_VY =  (float)22;
-	public static final float Monster_MOVE_VX =  (float)7;
+	public static final float Monster_JUMP_VY =  (float)8;
+	public static final float Monster_MOVE_VX =  (float)3;
 	
 	
 
@@ -58,6 +62,8 @@ public class GameMain extends BasicGame {
 	    }
 		character.render();
 	    monster.render();
+	    color  = new Color(255,0,0);
+	    graphics.setColor(color);
 	    graphics.drawString("Time : " + time.getTime(),100, 10);
 
 	}

@@ -12,8 +12,6 @@ public class Character {
 	private Image image;
 	public static final int WIDTH = 83;
 	public static final int HEIGHT = 110;
-	public static final int WIDTH_Collider = 90;
-	public static final int HEIGHT_Collider = 130;
 	public static int PointJump;
 	
 	public Character(float x, float y , float vx , float vy) throws SlickException {
@@ -22,7 +20,7 @@ public class Character {
 	    this.vx = vx;
 	    this.vy = vy;
 	    this.vjump = vy;
-	    image = new Image("res/Character/Chracter2.png");
+	    image = new Image("res/Character/Chracter0.png");
 	}
 	
 	public void render() {
@@ -45,6 +43,10 @@ public class Character {
 		}
 		if(x>=Podium.WIDTH + 25 - Character.WIDTH && x<=GameMain.GAME_WIDTH - Podium.WIDTH - 25 
 				&& (y<GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumDown - HEIGHT/2 && y> GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUp - HEIGHT)){
+			PointJump = 0;
+		}
+		if(((x<GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 - Character.WIDTH +25 && x>=0) || (x>GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - 25 && x<=GameMain.GAME_WIDTH))
+				&& (y<=GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumDownCenter  && y> GameMain.GAME_HEIGHT - GameMain.DistanceBottomAndPodiumUpCenter  - HEIGHT)){
 			PointJump = 0;
 		}
 		collider();
