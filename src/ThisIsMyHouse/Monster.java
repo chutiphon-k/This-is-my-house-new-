@@ -2,6 +2,7 @@ package ThisIsMyHouse;
 
 import java.util.Random;
 
+import org.newdawn.slick.Game;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -11,13 +12,13 @@ public class Monster {
 	private float vx;
 	private float vy;
 	private float vjump;
-	private Random random = new Random();
+	private Character character;
 	private Image image;
 	public static final int WIDTH = 80;
 	public static final int HEIGHT = 65;
-	public static String Direction = "R";
-	public static int PointJump=1;
-	
+	private String Direction;
+	private int PointJump=1;
+	private Random random = new Random();
 	
 	
 	public Monster(float x, float y , float vx , float vy) throws SlickException {
@@ -25,7 +26,8 @@ public class Monster {
 	    this.y = y;
 	    this.vx = vx;
 	    this.vy = vy;
-	    this.vjump = vy;
+	    this.vjump = RandomJumpHeight();
+	    Direction = RandomMovement();
 	    image = new Image("res/Monster/slime0.png");
 	}
 	
@@ -36,6 +38,7 @@ public class Monster {
 	public void update(){
 		Movement();
 		jumpUp();
+		vjump = RandomJumpHeight();
 		y +=vy;
 		if(y<GameMain.GAME_HEIGHT_ASSUM-HEIGHT){
 			jumpDown();
@@ -52,13 +55,36 @@ public class Monster {
 		collider();
 	}
 	
+	public void Movement(){
+		if(A()==true){
+			Direction = RandomMovement();
+			if(x<=character.x){
+				MoveRight();
+			}
+			if(x>character.x){
+				MoveLeft();
+			}
+			
+		}
+		else{
+			if(Direction == "L"){
+				MoveLeft();
+			}
+			if(Direction == "R"){
+				MoveRight();
+			}
+		}
+	}
+	
 	public void MoveLeft() {
 		if(x>0){
 			x -=vx;
 		}
 		else{
 			x =0;
-			Direction = "R";
+			if(A()==false){
+				Direction = "R";
+			}
 		}
 	}
 
@@ -68,16 +94,9 @@ public class Monster {
 		}
 		else{
 			x = GameMain.GAME_WIDTH-WIDTH;
-			Direction = "L";
-		}
-	}
-	
-	public void Movement(){
-		if(Direction == "L"){
-			MoveLeft();
-		}
-		if(Direction == "R"){
-			MoveRight();
+			if(A()==false){
+				Direction = "L";
+			}
 		}
 	}
 	
@@ -125,5 +144,39 @@ public class Monster {
 		}
 	}
 	
+	public boolean A(){
+		if(character.y<=GameMain.GAME_HEIGHT_ASSUM - Character.HEIGHT && character.y>=GameMain.GAME_HEIGHT_ASSUM-GameMain.DistanceBottomAndPodiumDown
+//				|| character.y<=GameMain.DistanceBottomAndPodiumUp - Character.HEIGHT && character.y>=GameMain.DistanceBottomAndPodiumDownCenter
+//				|| character.y<=GameMain.DistanceBottomAndPodiumUpCenter - Character.HEIGHT && character.y>=0
+				){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public String RandomMovement(){
+		int n = random.nextInt(100)+1;
+		if(n<=50){
+			return "R";
+		}
+		else{
+			return "L";
+		}
+	}
+		
+	public float RandomJumpHeight(){
+		int n = random.nextInt(90)+1;
+		if(n<=30){
+			return 8;
+			}
+		else if(n<=60){
+			return 5;
+		}
+		else{
+			return 10;
+			}
+	}
 	
 }

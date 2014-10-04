@@ -4,8 +4,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class Character {
-	private float x;
-	private float y;
+	public  static float x;
+	public  static float y;
 	private float vx;
 	private float vy;
 	private float vjump;
@@ -143,4 +143,5 @@ public class Character {
 		}
 	}
 	
+	  
 }
