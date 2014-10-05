@@ -9,8 +9,8 @@ import org.newdawn.slick.SlickException;
 public class Monster {
 	private float x;
 	private float y;
-	public static float x0;
-	public static float y0;
+	public static float getX;
+	public static float getY;
 	private float vx;
 	private float vy;
 	private float vjump;
@@ -27,8 +27,8 @@ public class Monster {
 	public Monster(float x, float y , float vx , float vy) throws SlickException {
 	    this.x = x;
 	    this.y = y;
-	    this.x0 = x;
-	    this.y0 = y;
+	    this.getX = x;
+	    this.getY = y;
 	    this.vx = vx;
 	    this.vy = vy;
 	    this.vjumpStart = vy;
@@ -45,8 +45,8 @@ public class Monster {
 		Movement();
 		jump();
 		collider();
-		x0 = x;
-		y0 = y;
+		getX = x;
+		getY = y;
 	}
 	
 	public void Movement(){

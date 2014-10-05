@@ -68,21 +68,15 @@ public class GameMain extends BasicGame {
 	    	dimensions.render();
 	    }
 		character.render();
-//	    for (Monster monsters : monster) {
-//	    	monsters.render();
-//	    }
 	    color  = new Color(255,0,0);
 	    g.setColor(color);
 	    g.drawString("Time : " + time.getTime(),100, 10);
 	    shapesC.render(g);
 	    for(int i = 0;i<5;i++){
-	    	monster[i].render();
 	    	shapesM[i].render(g);
-	    }
-//	    for (ShapesMonster shapesMs : shapesM) {
-//	    	shapesMs.render(g);
-//	    }
-	    
+	    	monster[i].render();
+			//g.draw(ShapesCharacter.rec);
+	    } 
 	}
 
 	@Override
@@ -102,13 +96,7 @@ public class GameMain extends BasicGame {
 		character.update();
 		Input input = container.getInput();
 		updateCharacterMovement(input,delta);
-//	    for (Monster monsters : monster) {
-//	    	monsters.update();
-//	    }
 	    shapesC.update();
-//	    for (ShapesMonster shapesMs : shapesM) {
-//	    	shapesMs.update();
-//	    }
 	    for(int i = 0;i<5;i++){
 	    	monster[i].update();
 	    	shapesM[i].update();
