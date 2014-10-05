@@ -4,8 +4,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class Dimension {
-		private float x;
-		private float y;
+		public float x;
+		public float y;
 		private Image image;
 		public static final int WIDTH = 120;
 		public static final int HEIGHT = 140;
