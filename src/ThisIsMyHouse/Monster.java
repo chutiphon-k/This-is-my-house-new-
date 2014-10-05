@@ -53,7 +53,20 @@ public class Monster {
 				MoveLeft();
 			}	
 		}
-		else if(CheckAreaMiddle(y)==true && CheckAreaMiddle(Character.y)==true){
+		
+		else if(CheckAreaMiddle(y)==true && CheckAreaMiddle(Character.y)==true && Character.x<=Podium.WIDTH && x<=Podium.WIDTH){
+			Direction = RandomMovement();
+			if(Character.x<=Podium.WIDTH && x<=Podium.WIDTH){
+				if(x<=character.x){
+					MoveRight();
+				}
+				if(x>character.x){
+					MoveLeft();
+				}
+			}
+		}
+		
+		else if(CheckAreaMiddle(y)==true && CheckAreaMiddle(Character.y)==true && Character.x>=GameMain.GAME_WIDTH - Podium.WIDTH - Character.WIDTH && x>=GameMain.GAME_WIDTH - Podium.WIDTH ){
 			Direction = RandomMovement();
 			if(x<=character.x){
 				MoveRight();
@@ -62,6 +75,7 @@ public class Monster {
 				MoveLeft();
 			}
 		}
+		
 		else if(CheckAreaTop(y)==true && CheckAreaTop(Character.y)==true){
 			Direction = RandomMovement();
 			if(x<=character.x){
@@ -71,6 +85,7 @@ public class Monster {
 				MoveLeft();
 			}
 		}
+		
 		else{
 			if(Direction == "L"){
 				MoveLeft();
