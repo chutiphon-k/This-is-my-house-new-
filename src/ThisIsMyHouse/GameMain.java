@@ -32,8 +32,11 @@ public class GameMain extends BasicGame {
 	public static final float DistanceBottomAndPodiumDownCenter = DistanceBottomAndPodiumUpCenter - Podium.HEIGHT;
 	public static final float Monster_JUMP_VY =  (float)7;
 	public static final float Monster_MOVE_VX =  (float)2;
-	public static int caltime = 2;
+	public static int caltime2s = 2;
+	public static int caltime1s = 1;
 	public static boolean BeforeCrash = true;
+	public static int Score = 0;
+	public static boolean BeforeAttack = true;
 
 	public GameMain(String title) {
 		super(title);
@@ -84,15 +87,7 @@ public class GameMain extends BasicGame {
 	@Override
 	public void update(GameContainer c, int delta) throws SlickException {
 		time.update(delta);
-		if(time.getTime()-time.currentTime==1 && Monster.AfterCrash==true){
-			--caltime;
-		}
-		if(caltime==0){
-			System.out.print(time.getTime());
-			caltime = 2;
-			BeforeCrash = true;
-			Monster.AfterCrash = false;
-		}
+		DeleyMonsterCrash();
 		character.update(c);
 		Input input = c.getInput();
 		updateCharacterMovement(input,delta);
@@ -114,8 +109,17 @@ public class GameMain extends BasicGame {
 	
 	@Override
 	public void keyPressed(int key, char c) {
-	    if (key == Input.KEY_UP) {
+	    if(key == Input.KEY_UP) {
 	    	character.jumpUp();
+	    }
+	    if(key == Input.KEY_SPACE && BeforeAttack == true){
+	    	DeleyCharacterAttack();
+	    	try {
+				character.Attack();
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    }
 	}
 	
@@ -145,4 +149,26 @@ public class GameMain extends BasicGame {
 	    monster[4] = new Monster(GAME_WIDTH - Dimension.WIDTH,GAME_HEIGHT_ASSUM-Dimension.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
 	}
 	
+	public void DeleyMonsterCrash(){
+		if(time.getTime()-time.currentTime==1 && Monster.AfterCrash==true){
+			--caltime2s;
+		}
+		if(caltime2s==0){
+			caltime2s = 2;
+			BeforeCrash = true;
+			Monster.AfterCrash = false;
+		}
+	}
+	
+	public void DeleyCharacterAttack(){
+		if(time.getTime()-time.currentTime==1 && Character.AfterAttack==true){
+			--caltime1s;
+		}
+		if(caltime1s==0){
+			System.out.print(time.getTime());
+			caltime1s = 1;
+			BeforeAttack = true;
+			Character.AfterAttack = false;
+		}
+	}
 }

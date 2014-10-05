@@ -15,10 +15,14 @@ public class Character {
 	private float vy;
 	private float vjump;
 	private Image image;
+	private Monster monster;
 	public static final int WIDTH = 83;
+	public static final int WIDTH_Attack = 10;
 	public static final int HEIGHT = 110;
 	public static int PointJump;
 	public static Shape rec;
+	public static int Score = 0;
+	public static boolean AfterAttack;
 	
 	public Character(float x, float y , float vx , float vy) throws SlickException {
 	    this.x = x;
@@ -26,17 +30,18 @@ public class Character {
 	    this.vx = vx;
 	    this.vy = vy;
 	    this.vjump = vy;
-	    rec = new Rectangle(x,y,83,110);
-	    image = new Image("res/Character/Chracter0.png");
+	    rec = new Rectangle(x,y,WIDTH,HEIGHT);
+	    image = new Image("res/Character/Character0.png");
 	}
 	
 	public void render(Graphics g) {
 		image.draw(x,y);
-	    g.setColor( Color.green );
-	    g.draw(rec);
+	    g.drawString("Score : " + Score,200, 10);
+	    //g.setColor( Color.green );
+	    //g.draw(rec);
 	}
 	
-	public void update(GameContainer c) {
+	public void update(GameContainer c) throws SlickException {
 		rec.setLocation(x, y);
 		y +=vy;
 		if(y<GameMain.GAME_HEIGHT_ASSUM-HEIGHT){
@@ -91,6 +96,13 @@ public class Character {
 	public void jumpDown() {
 		vy += GameMain.G;
 		}
+	
+	public void Attack() throws SlickException{
+		image = new Image("res/Character/CharacterAttack.png");
+		Score +=1;
+		AfterAttack = true;
+		GameMain.BeforeAttack = false;
+	}
 	
 	public boolean ColliderWithPodiumDown(){
 		if((x>=0 && x<=Podium.WIDTH-25) 

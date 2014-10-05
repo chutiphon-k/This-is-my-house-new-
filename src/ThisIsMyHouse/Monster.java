@@ -25,7 +25,6 @@ public class Monster {
 	private int PointJump=1;
 	private Random random = new Random();
 	private Shape rec;
-	private Graphics g;
 	private Heart heart = new Heart(GameMain.GAME_WIDTH-Heart.WIDTH-10,0);
 	private Time time;
 	public static int caltime=5;
@@ -46,16 +45,8 @@ public class Monster {
 	
 	public void render(Graphics g) throws SlickException {
 		image.draw(x,y);
-		this.g = g;
-	    g.setColor( Color.blue );
-	    g.draw(rec);
-	    
-		if((this.rec).intersects(character.rec) && GameMain.BeforeCrash==true)
-		{
-			g.setColor(Color.red);
-			g.draw(character.rec);
+		if(CheckMonIntersectsChar()==true){
 			heart.update();
-			System.out.println("in");
 			AfterCrash = true;
 			GameMain.BeforeCrash = false;
 		}
@@ -284,6 +275,15 @@ public class Monster {
 	
 	public boolean CheckAreaTop(float y){
 		if(y<=GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumUpCenter && y>=0){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public boolean CheckMonIntersectsChar(){
+		if((this.rec).intersects(character.rec) && GameMain.BeforeCrash==true){
 			return true;
 		}
 		else{
