@@ -12,6 +12,7 @@ public class Monster {
 	private float vx;
 	private float vy;
 	private float vjump;
+	private float vjumpStart;
 	private Character character;
 	private Image image;
 	public static final int WIDTH = 80;
@@ -26,6 +27,7 @@ public class Monster {
 	    this.y = y;
 	    this.vx = vx;
 	    this.vy = vy;
+	    this.vjumpStart = vy;
 	    this.vjump = RandomJumpHeight();
 	    Direction = RandomMovement();
 	    image = new Image("res/Monster/slime0.png");
@@ -37,6 +39,100 @@ public class Monster {
 	
 	public void update(){
 		Movement();
+		jump();
+		collider();
+	}
+	
+	public void Movement(){
+		if(CheckAreaBottom(y)==true && CheckAreaBottom(Character.y)==true){
+			Direction = RandomMovement();
+			if(x<=character.x){
+				MoveRight();
+			}
+			if(x>character.x){
+				MoveLeft();
+			}	
+		}
+		else if(CheckAreaMiddle(y)==true && CheckAreaMiddle(Character.y)==true){
+			Direction = RandomMovement();
+			if(x<=character.x){
+				MoveRight();
+			}
+			if(x>character.x){
+				MoveLeft();
+			}
+		}
+		else{
+			if(Direction == "L"){
+				MoveLeft();
+			}
+			if(Direction == "R"){
+				MoveRight();
+			}
+		}					
+	}
+	
+	
+	public void MoveLeft() {
+		if(x>0){
+			if(CheckAreaBottom(y)==true){
+				x -=vx;
+			}
+			if(CheckAreaMiddle(y)==true && x<GameMain.GAME_WIDTH/2 - Dimension.WIDTH/2){
+				x -=vx;
+			}
+//			if(CheckAreaMiddle(y)==true && x>=GameMain.GAME_WIDTH/2 - Dimension.WIDTH/2 && x<=GameMain.GAME_WIDTH/2 - Dimension.WIDTH/2 +10){
+//				x = GameMain.GAME_WIDTH/2;
+//			}
+		}
+		else{
+			if(x<=0){
+			x =0;
+			Direction = "R";
+			}
+		}
+		
+//		if(x>0){
+//			x -=vx;
+//		}
+//		else{
+//			if(x<=0){
+//			x =0;
+//			Direction = "R";
+//			}
+//		}
+	}
+
+	public void MoveRight() {
+		if(x<GameMain.GAME_WIDTH-WIDTH){
+			if(CheckAreaBottom(y)==true){
+				x +=vx;
+			}
+			if(CheckAreaMiddle(y)==true && x<Podium.WIDTH){
+				x +=vx;
+			}
+			if(CheckAreaMiddle(y)==true && x>=Podium.WIDTH - WIDTH && x<=Podium.WIDTH - WIDTH +2){
+				x = Podium.WIDTH - WIDTH;
+				Direction = "L";
+			}
+		}
+		else{
+			x = GameMain.GAME_WIDTH-WIDTH;
+			Direction = "L";
+		}
+		
+		
+		
+//		if(x<GameMain.GAME_WIDTH-WIDTH){
+//			x +=vx;
+//		}
+//		else{
+//			x = GameMain.GAME_WIDTH-WIDTH;
+//			Direction = "L";
+//		}
+	}
+	
+	public void jump(){
 		jumpUp();
 		vjump = RandomJumpHeight();
 		y +=vy;
@@ -51,52 +147,6 @@ public class Monster {
 		if(y<=0){
 			y = 0;
 			jumpDown();
-		}
-		collider();
-	}
-	
-	public void Movement(){
-		if(A()==true){
-			Direction = RandomMovement();
-			if(x<=character.x){
-				MoveRight();
-			}
-			if(x>character.x){
-				MoveLeft();
-			}
-			
-		}
-		else{
-			if(Direction == "L"){
-				MoveLeft();
-			}
-			if(Direction == "R"){
-				MoveRight();
-			}
-		}
-	}
-	
-	public void MoveLeft() {
-		if(x>0){
-			x -=vx;
-		}
-		else{
-			x =0;
-			if(A()==false){
-				Direction = "R";
-			}
-		}
-	}
-
-	public void MoveRight() {
-		if(x<(GameMain.GAME_WIDTH-WIDTH)){
-			x +=vx;
-		}
-		else{
-			x = GameMain.GAME_WIDTH-WIDTH;
-			if(A()==false){
-				Direction = "L";
-			}
 		}
 	}
 	
@@ -144,18 +194,6 @@ public class Monster {
 		}
 	}
 	
-	public boolean A(){
-		if(character.y<=GameMain.GAME_HEIGHT_ASSUM - Character.HEIGHT && character.y>=GameMain.GAME_HEIGHT_ASSUM-GameMain.DistanceBottomAndPodiumDown
-//				|| character.y<=GameMain.DistanceBottomAndPodiumUp - Character.HEIGHT && character.y>=GameMain.DistanceBottomAndPodiumDownCenter
-//				|| character.y<=GameMain.DistanceBottomAndPodiumUpCenter - Character.HEIGHT && character.y>=0
-				){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
-	
 	public String RandomMovement(){
 		int n = random.nextInt(100)+1;
 		if(n<=50){
@@ -169,14 +207,43 @@ public class Monster {
 	public float RandomJumpHeight(){
 		int n = random.nextInt(90)+1;
 		if(n<=30){
-			return 8;
+			return vjumpStart-2;
 			}
 		else if(n<=60){
-			return 5;
+			return vjumpStart;
 		}
 		else{
-			return 10;
+			return vjumpStart+2;
 			}
 	}
 	
+	public boolean CheckAreaBottom(float y){
+		if(y<=GameMain.GAME_HEIGHT_ASSUM && y>=GameMain.GAME_HEIGHT_ASSUM-GameMain.DistanceBottomAndPodiumDown){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public boolean CheckAreaMiddle(float y){
+		if(y<=GameMain.GAME_HEIGHT_ASSUM-GameMain.DistanceBottomAndPodiumUp && y>=GameMain.GAME_HEIGHT_ASSUM-GameMain.DistanceBottomAndPodiumDownCenter){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public boolean CheckAreaTop(float y){
+		if(y<=GameMain.DistanceBottomAndPodiumUpCenter && y>=0){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 }
+
+//|| character.y<=GameMain.DistanceBottomAndPodiumUp - Character.HEIGHT && character.y>=GameMain.DistanceBottomAndPodiumDownCenter
+//|| character.y<=GameMain.DistanceBottomAndPodiumUpCenter - Character.HEIGHT && character.y>=0

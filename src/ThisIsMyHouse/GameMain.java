@@ -32,7 +32,7 @@ public class GameMain extends BasicGame {
 	public static final float DistanceBottomAndPodiumDown = DistanceBottomAndPodiumUp - Podium.HEIGHT;
 	public static final float DistanceBottomAndPodiumUpCenter = DistanceBottomAndPodiumUp*2;
 	public static final float DistanceBottomAndPodiumDownCenter = DistanceBottomAndPodiumUpCenter - Podium.HEIGHT;
-	public static final float Monster_JUMP_VY =  (float)8;
+	public static final float Monster_JUMP_VY =  (float)7;
 	public static final float Monster_MOVE_VX =  (float)2;
 	public static double m = 1;
 	
@@ -65,9 +65,11 @@ public class GameMain extends BasicGame {
 	    	dimensions.render();
 	    }
 		character.render();
-	    for (Monster monsters : monster) {
-	    	monsters.render();
-	    }
+//	    for (Monster monsters : monster) {
+//	    	monsters.render();
+//	    }
+		//monster[2].render();
+		monster[1].render();
 	    color  = new Color(255,0,0);
 	    graphics.setColor(color);
 	    graphics.drawString("Time : " + time.getTime(),100, 10);
@@ -130,9 +132,12 @@ public class GameMain extends BasicGame {
 	}
 
 	public void initMonster() throws SlickException {
-		monster = new Monster[2];
-	    monster[0] = new Monster(Dimension.WIDTH/2 - Monster.WIDTH/2,GAME_HEIGHT_ASSUM-Monster.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
-	    monster[1] = new Monster(GAME_WIDTH,GAME_HEIGHT_ASSUM-Monster.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
+		monster = new Monster[5];
+	    monster[0] = new Monster(0,GAME_HEIGHT_ASSUM-Dimension.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
+	    monster[1] = new Monster(0,GAME_HEIGHT_ASSUM-DistanceBottomAndPodiumUp - Dimension.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
+	    monster[2] = new Monster(GAME_WIDTH/2 - Dimension.WIDTH/2,GAME_HEIGHT_ASSUM-DistanceBottomAndPodiumUpCenter - Dimension.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
+	    monster[3] = new Monster(GAME_WIDTH - Dimension.WIDTH,GAME_HEIGHT_ASSUM-DistanceBottomAndPodiumUp - Dimension.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
+	    monster[4] = new Monster(GAME_WIDTH - Dimension.WIDTH,GAME_HEIGHT_ASSUM-Dimension.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
 	}
 	
 }
