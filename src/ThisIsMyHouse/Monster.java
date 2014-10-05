@@ -2,9 +2,14 @@ package ThisIsMyHouse;
 
 import java.util.Random;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Game;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 
 public class Monster {
 	private float x;
@@ -22,6 +27,8 @@ public class Monster {
 	private String Direction;
 	private int PointJump=1;
 	private Random random = new Random();
+	private Shape rec;
+	private Graphics g;
 	
 	
 	public Monster(float x, float y , float vx , float vy) throws SlickException {
@@ -34,19 +41,27 @@ public class Monster {
 	    this.vjumpStart = vy;
 	    this.vjump = RandomJumpHeight();
 	    Direction = RandomMovement();
+	    rec = new Rectangle(x,y,80,65);
 	    image = new Image("res/Monster/slime0.png");
 	}
 	
-	public void render() {
+	public void render(Graphics g) {
 		image.draw(x,y);
+		this.g = g;
+	    g.setColor( Color.blue );
+	    g.draw(rec);
+		if((this.rec).intersects(character.rec))
+		{
+			g.setColor(Color.red);
+			g.draw(character.rec);
+		}
 	}
 	
-	public void update(){
+	public void update(GameContainer c){
+		rec.setLocation(x, y);
 		Movement();
 		jump();
 		collider();
-		getX = x;
-		getY = y;
 	}
 	
 	public void Movement(){

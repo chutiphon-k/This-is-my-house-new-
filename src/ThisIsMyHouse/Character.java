@@ -1,7 +1,11 @@
 package ThisIsMyHouse;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
 public class Character {
@@ -14,6 +18,7 @@ public class Character {
 	public static final int WIDTH = 83;
 	public static final int HEIGHT = 110;
 	public static int PointJump;
+	public static Shape rec;
 	
 	public Character(float x, float y , float vx , float vy) throws SlickException {
 	    this.x = x;
@@ -21,14 +26,18 @@ public class Character {
 	    this.vx = vx;
 	    this.vy = vy;
 	    this.vjump = vy;
+	    rec = new Rectangle(x,y,83,110);
 	    image = new Image("res/Character/Chracter0.png");
 	}
 	
-	public void render() {
+	public void render(Graphics g) {
 		image.draw(x,y);
+	    g.setColor( Color.green );
+	    g.draw(rec);
 	}
 	
-	public void update() {
+	public void update(GameContainer c) {
+		rec.setLocation(x, y);
 		y +=vy;
 		if(y<GameMain.GAME_HEIGHT_ASSUM-HEIGHT){
 			jumpDown();

@@ -22,8 +22,6 @@ public class GameMain extends BasicGame {
 	private static Character character;
 	private Color color;
 	private Time time;
-	private ShapesCharacter shapesC;
-	private ShapesMonster[] shapesM;
 	public static final int platform = 55;
 	public static final int GAME_WIDTH = 800;
 	public static final int GAME_HEIGHT = 600;
@@ -67,15 +65,12 @@ public class GameMain extends BasicGame {
 	    for (Dimension dimensions : dimension) {
 	    	dimensions.render();
 	    }
-		character.render();
+		character.render(g);
 	    color  = new Color(255,0,0);
 	    g.setColor(color);
 	    g.drawString("Time : " + time.getTime(),100, 10);
-	    shapesC.render(g);
 	    for(int i = 0;i<5;i++){
-	    	shapesM[i].render(g);
-	    	monster[i].render();
-			//g.draw(ShapesCharacter.rec);
+	    	monster[i].render(g);
 	    } 
 	}
 
@@ -87,19 +82,16 @@ public class GameMain extends BasicGame {
 		initPodium();
 		initDimension();
 		initMonster();
-		shapesC = new ShapesCharacter(GAME_WIDTH/2 - Character.WIDTH/2,GAME_HEIGHT_ASSUM-Character.HEIGHT,83,110);
 	}
 
 	@Override
-	public void update(GameContainer container, int delta) throws SlickException {
+	public void update(GameContainer c, int delta) throws SlickException {
 		time.update(delta);
-		character.update();
-		Input input = container.getInput();
+		character.update(c);
+		Input input = c.getInput();
 		updateCharacterMovement(input,delta);
-	    shapesC.update();
 	    for(int i = 0;i<5;i++){
-	    	monster[i].update();
-	    	shapesM[i].update();
+	    	monster[i].update(c);
 	    }
 	}
 	
@@ -144,13 +136,6 @@ public class GameMain extends BasicGame {
 	    monster[2] = new Monster(GAME_WIDTH/2 - Dimension.WIDTH/2,GAME_HEIGHT_ASSUM-DistanceBottomAndPodiumUpCenter - Dimension.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
 	    monster[3] = new Monster(GAME_WIDTH - Dimension.WIDTH,GAME_HEIGHT_ASSUM-DistanceBottomAndPodiumUp - Dimension.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
 	    monster[4] = new Monster(GAME_WIDTH - Dimension.WIDTH,GAME_HEIGHT_ASSUM-Dimension.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
-	    
-		shapesM = new ShapesMonster[5];
-		shapesM[0] = new ShapesMonster(0,GAME_HEIGHT_ASSUM-Dimension.HEIGHT,80,65);
-		shapesM[1] = new ShapesMonster(0,GAME_HEIGHT_ASSUM-DistanceBottomAndPodiumUp - Dimension.HEIGHT,80,65);
-		shapesM[2] = new ShapesMonster(GAME_WIDTH/2 - Dimension.WIDTH/2,GAME_HEIGHT_ASSUM-DistanceBottomAndPodiumUpCenter - Dimension.HEIGHT,80,65);
-		shapesM[3] = new ShapesMonster(GAME_WIDTH - Dimension.WIDTH,GAME_HEIGHT_ASSUM-DistanceBottomAndPodiumUp - Dimension.HEIGHT,80,65);
-		shapesM[4] = new ShapesMonster(GAME_WIDTH - Dimension.WIDTH,GAME_HEIGHT_ASSUM-Dimension.HEIGHT,80,65);
 	}
 	
 }
