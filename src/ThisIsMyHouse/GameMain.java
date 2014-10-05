@@ -65,11 +65,13 @@ public class GameMain extends BasicGame {
 	    	dimensions.render();
 	    }
 		character.render();
-//	    for (Monster monsters : monster) {
-//	    	monsters.render();
-//	    }
-		//monster[2].render();
-		monster[1].render();
+	    for (Monster monsters : monster) {
+	    	monsters.render();
+	    }
+//	    monster[2].render();
+//		monster[1].render();
+//		monster[3].render();
+//		monster[0].render();
 	    color  = new Color(255,0,0);
 	    graphics.setColor(color);
 	    graphics.drawString("Time : " + time.getTime(),100, 10);
@@ -118,8 +120,9 @@ public class GameMain extends BasicGame {
 	public void initPodium() throws SlickException {
 	    podium = new Podium[3];
 		podium[0] = new Podium(0,GAME_HEIGHT_ASSUM-DistanceBottomAndPodiumUp);
-		podium[1] = new Podium(GAME_WIDTH-Podium.WIDTH,GAME_HEIGHT_ASSUM-DistanceBottomAndPodiumUp);
-		podium[2] = new Podium(GAME_WIDTH/2 - Podium.WIDTH/2,GAME_HEIGHT_ASSUM - DistanceBottomAndPodiumUpCenter);
+		podium[1] = new Podium(GAME_WIDTH/2 - Podium.WIDTH/2,GAME_HEIGHT_ASSUM - DistanceBottomAndPodiumUpCenter);
+		podium[2] = new Podium(GAME_WIDTH-Podium.WIDTH,GAME_HEIGHT_ASSUM-DistanceBottomAndPodiumUp);
+		
 	}
 	
 	public void initDimension() throws SlickException {
