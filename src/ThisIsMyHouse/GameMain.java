@@ -1,8 +1,6 @@
 package ThisIsMyHouse;
 
 
-import java.util.Random;
-
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -11,8 +9,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
 
 public class GameMain extends BasicGame {
 	private Image BGImage;
@@ -36,7 +32,8 @@ public class GameMain extends BasicGame {
 	public static final float DistanceBottomAndPodiumDownCenter = DistanceBottomAndPodiumUpCenter - Podium.HEIGHT;
 	public static final float Monster_JUMP_VY =  (float)7;
 	public static final float Monster_MOVE_VX =  (float)2;
-	public static double m = 1;
+	public static int caltime = 2;
+	public static boolean BeforeCrash = true;
 
 	public GameMain(String title) {
 		super(title);
@@ -71,7 +68,7 @@ public class GameMain extends BasicGame {
 	    g.drawString("Time : " + time.getTime(),100, 10);
 	    for(int i = 0;i<5;i++){
 	    	monster[i].render(g);
-	    } 
+	    }
 	}
 
 	@Override
@@ -87,12 +84,22 @@ public class GameMain extends BasicGame {
 	@Override
 	public void update(GameContainer c, int delta) throws SlickException {
 		time.update(delta);
+		if(time.getTime()-time.currentTime==1 && Monster.AfterCrash==true){
+			--caltime;
+		}
+		if(caltime==0){
+			System.out.print(time.getTime());
+			caltime = 2;
+			BeforeCrash = true;
+			Monster.AfterCrash = false;
+		}
 		character.update(c);
 		Input input = c.getInput();
 		updateCharacterMovement(input,delta);
 	    for(int i = 0;i<5;i++){
 	    	monster[i].update(c);
 	    }
+	    time.setCurrentTime();
 	}
 	
 	public static void updateCharacterMovement(Input input, int delta){

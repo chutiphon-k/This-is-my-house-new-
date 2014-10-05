@@ -3,7 +3,6 @@ package ThisIsMyHouse;
 import java.util.Random;
 
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Game;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -14,8 +13,6 @@ import org.newdawn.slick.geom.Shape;
 public class Monster {
 	private float x;
 	private float y;
-	public static float getX;
-	public static float getY;
 	private float vx;
 	private float vy;
 	private float vjump;
@@ -29,13 +26,14 @@ public class Monster {
 	private Random random = new Random();
 	private Shape rec;
 	private Graphics g;
-	
+	private Heart heart = new Heart(GameMain.GAME_WIDTH-Heart.WIDTH-10,0);
+	private Time time;
+	public static int caltime=5;
+	public static boolean AfterCrash;
 	
 	public Monster(float x, float y , float vx , float vy) throws SlickException {
 	    this.x = x;
 	    this.y = y;
-	    this.getX = x;
-	    this.getY = y;
 	    this.vx = vx;
 	    this.vy = vy;
 	    this.vjumpStart = vy;
@@ -43,18 +41,25 @@ public class Monster {
 	    Direction = RandomMovement();
 	    rec = new Rectangle(x,y,80,65);
 	    image = new Image("res/Monster/slime0.png");
+	    time = new Time();
 	}
 	
-	public void render(Graphics g) {
+	public void render(Graphics g) throws SlickException {
 		image.draw(x,y);
 		this.g = g;
 	    g.setColor( Color.blue );
 	    g.draw(rec);
-		if((this.rec).intersects(character.rec))
+	    
+		if((this.rec).intersects(character.rec) && GameMain.BeforeCrash==true)
 		{
 			g.setColor(Color.red);
 			g.draw(character.rec);
+			heart.update();
+			System.out.println("in");
+			AfterCrash = true;
+			GameMain.BeforeCrash = false;
 		}
+		heart.render();
 	}
 	
 	public void update(GameContainer c){
