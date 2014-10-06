@@ -29,6 +29,10 @@ public class Monster {
 	private Time time;
 	public static int caltime=5;
 	public static boolean AfterCrash;
+	public static int score = 0;
+	
+	public Monster() throws SlickException {
+	}
 	
 	public Monster(float x, float y , float vx , float vy) throws SlickException {
 	    this.x = x;

@@ -110,16 +110,16 @@ public class GameMain extends BasicGame {
 	@Override
 	public void keyPressed(int key, char c) {
 	    if(key == Input.KEY_UP) {
-	    	character.jumpUp();
-	    }
-	    if(key == Input.KEY_SPACE && BeforeAttack == true){
-	    	DeleyCharacterAttack();
 	    	try {
-				character.Attack();
+				character.jumpUp();
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	    }
+	    if(key == Input.KEY_SPACE && BeforeAttack == true){
+		    //character.Attack();
+		    
 	    }
 	}
 	
@@ -164,11 +164,11 @@ public class GameMain extends BasicGame {
 		if(time.getTime()-time.currentTime==1 && Character.AfterAttack==true){
 			--caltime1s;
 		}
-		if(caltime1s==0){
-			System.out.print(time.getTime());
-			caltime1s = 1;
-			BeforeAttack = true;
-			Character.AfterAttack = false;
-		}
+//		if(caltime1s==0){
+//			System.out.print(time.getTime());
+//			caltime1s = 1;
+//			BeforeAttack = true;
+//			Character.AfterAttack = false;
+//		}
 	}
 }

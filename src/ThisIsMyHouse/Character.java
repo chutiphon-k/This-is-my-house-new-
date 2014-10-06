@@ -1,6 +1,5 @@
 package ThisIsMyHouse;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -15,7 +14,7 @@ public class Character {
 	private float vy;
 	private float vjump;
 	private Image image;
-	private Monster monster;
+	private Monster monster = new Monster();
 	public static final int WIDTH = 83;
 	public static final int WIDTH_Attack = 10;
 	public static final int HEIGHT = 110;
@@ -36,34 +35,14 @@ public class Character {
 	
 	public void render(Graphics g) {
 		image.draw(x,y);
-	    g.drawString("Score : " + Score,200, 10);
+	    //g.drawString("Score : " + Score,200, 10);
 	    //g.setColor( Color.green );
 	    //g.draw(rec);
 	}
 	
 	public void update(GameContainer c) throws SlickException {
 		rec.setLocation(x, y);
-		y +=vy;
-		if(y<GameMain.GAME_HEIGHT_ASSUM-HEIGHT){
-			jumpDown();
-		}
-		if(y>=GameMain.GAME_HEIGHT_ASSUM-HEIGHT){
-			y = GameMain.GAME_HEIGHT_ASSUM-HEIGHT;
-			vy=0;
-			PointJump = 1;
-		}
-		if(y<=0){
-			y = 0;
-			jumpDown();
-		}
-		if(x>=Podium.WIDTH + 25 - Character.WIDTH && x<=GameMain.GAME_WIDTH - Podium.WIDTH - 25 
-				&& (y<GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumDown - HEIGHT/2 && y> GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumUp - HEIGHT)){
-			PointJump = 0;
-		}
-		if(((x<GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 - Character.WIDTH +25 && x>=0) || (x>GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - 25 && x<=GameMain.GAME_WIDTH))
-				&& (y<=GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumDownCenter  && y> GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumUpCenter  - HEIGHT)){
-			PointJump = 0;
-		}
+		Jump();
 		collider();
 		
 	}
@@ -86,7 +65,9 @@ public class Character {
 		}
 	}
 
-	public void jumpUp() {
+	public void jumpUp() throws SlickException {
+		image.destroy();
+		image = new Image("res/Character/CharacterJump.png");
 		if(PointJump==1){
 			vy = -vjump;
 			PointJump = 0;
@@ -97,12 +78,39 @@ public class Character {
 		vy += GameMain.G;
 		}
 	
-	public void Attack() throws SlickException{
-		image = new Image("res/Character/CharacterAttack.png");
-		Score +=1;
-		AfterAttack = true;
-		GameMain.BeforeAttack = false;
+	public void Jump() {
+		y +=vy;
+		if(y<GameMain.GAME_HEIGHT_ASSUM-HEIGHT){
+			jumpDown();
+		}
+		if(y>=GameMain.GAME_HEIGHT_ASSUM-HEIGHT){
+			y = GameMain.GAME_HEIGHT_ASSUM-HEIGHT;
+			vy=0;
+			PointJump = 1;
+		}
+		if(y<=0){
+			y = 0;
+			jumpDown();
+		}
+		if(x>=Podium.WIDTH + 25 - Character.WIDTH && x<=GameMain.GAME_WIDTH - Podium.WIDTH - 25 
+				&& (y<GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumDown - HEIGHT/2 && y> GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumUp - HEIGHT)){
+			PointJump = 0;
+		}
+		if(((x<GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 - Character.WIDTH +25 && x>=0) || (x>GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - 25 && x<=GameMain.GAME_WIDTH))
+				&& (y<=GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumDownCenter  && y> GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumUpCenter  - HEIGHT)){
+			PointJump = 0;
+		}
 	}
+	
+//	public void Attack() throws SlickException{
+////		image = new Image("res/Character/CharacterAttack.png");
+// 
+////		AfterAttack = true;
+////		GameMain.BeforeAttack = false;
+//		if(monster.CheckMonIntersectsChar() == true){
+//			Score +=1;
+//		}
+//	}
 	
 	public boolean ColliderWithPodiumDown(){
 		if((x>=0 && x<=Podium.WIDTH-25) 
