@@ -25,10 +25,10 @@ public class Monster {
 	private int PointJump=1;
 	private Random random = new Random();
 	private Shape rec;
-	private Heart heart = new Heart(GameMain.GAME_WIDTH-Heart.WIDTH-10,0);
+	//private Heart heart = new Heart(GameMain.GAME_WIDTH-Heart.WIDTH-10,0);
 	private Time time;
-	public static int caltime=5;
-	public static boolean AfterCrash;
+	//public static int caltime=5;
+	//public static boolean AfterCrash;
 	public static int score = 0;
 	
 	public Monster() throws SlickException {
@@ -49,12 +49,12 @@ public class Monster {
 	
 	public void render(Graphics g) throws SlickException {
 		image.draw(x,y);
-		if(CheckMonIntersectsChar()==true){
-			heart.update();
-			AfterCrash = true;
-			GameMain.BeforeCrash = false;
-		}
-		heart.render();
+//		if(CheckMonIntersectsChar()==true){
+//			heart.update();
+//			AfterCrash = true;
+//			GameMain.BeforeCrash = false;
+//		}
+//		heart.render();
 	}
 	
 	public void update(GameContainer c){
@@ -287,7 +287,7 @@ public class Monster {
 	}
 	
 	public boolean CheckMonIntersectsChar(){
-		if((this.rec).intersects(character.rec) && GameMain.BeforeCrash==true){
+		if((this.rec).intersects(character.rec) && GameMain.Crash==true){
 			return true;
 		}
 		else{

@@ -19,6 +19,7 @@ public class Dimension {
 		
 		public void render() {
 			image.draw(x,y);
+			image.rotate(+0.3f);
 		}
 	
 }

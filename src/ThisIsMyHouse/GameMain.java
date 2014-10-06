@@ -18,6 +18,7 @@ public class GameMain extends BasicGame {
 	private static Character character;
 	private Color color;
 	private Time time;
+	private Heart heart;
 	public static final int platform = 55;
 	public static final int GAME_WIDTH = 800;
 	public static final int GAME_HEIGHT = 600;
@@ -32,9 +33,9 @@ public class GameMain extends BasicGame {
 	public static final float DistanceBottomAndPodiumDownCenter = DistanceBottomAndPodiumUpCenter - Podium.HEIGHT;
 	public static final float Monster_JUMP_VY =  (float)7;
 	public static final float Monster_MOVE_VX =  (float)2;
-	public static int caltime2s = 2;
-	public static int caltime1s = 1;
-	public static boolean BeforeCrash = true;
+	public static int Caltime2s = 2;
+	public static int Caltime1s = 1;
+	public static boolean Crash = true;
 	public static int Score = 0;
 	public static boolean BeforeAttack = true;
 
@@ -72,6 +73,7 @@ public class GameMain extends BasicGame {
 	    for(int i = 0;i<5;i++){
 	    	monster[i].render(g);
 	    }
+	    heart.render();
 	}
 
 	@Override
@@ -82,6 +84,7 @@ public class GameMain extends BasicGame {
 		initPodium();
 		initDimension();
 		initMonster();
+		heart = new Heart(GameMain.GAME_WIDTH-Heart.WIDTH-10,0);
 	}
 
 	@Override
@@ -93,6 +96,10 @@ public class GameMain extends BasicGame {
 		updateCharacterMovement(input,delta);
 	    for(int i = 0;i<5;i++){
 	    	monster[i].update(c);
+			if(monster[i].CheckMonIntersectsChar()==true){
+				heart.update();
+				Crash = false;
+			}
 	    }
 	    time.setCurrentTime();
 	}
@@ -150,19 +157,18 @@ public class GameMain extends BasicGame {
 	}
 	
 	public void DeleyMonsterCrash(){
-		if(time.getTime()-time.currentTime==1 && Monster.AfterCrash==true){
-			--caltime2s;
+		if(time.getTime()-time.currentTime==1){
+			--Caltime2s;
 		}
-		if(caltime2s==0){
-			caltime2s = 2;
-			BeforeCrash = true;
-			Monster.AfterCrash = false;
+		if(Caltime2s==0){
+			Caltime2s = 2;
+			Crash = true;
 		}
 	}
 	
 	public void DeleyCharacterAttack(){
 		if(time.getTime()-time.currentTime==1 && Character.AfterAttack==true){
-			--caltime1s;
+			--Caltime1s;
 		}
 //		if(caltime1s==0){
 //			System.out.print(time.getTime());
@@ -171,4 +177,5 @@ public class GameMain extends BasicGame {
 //			Character.AfterAttack = false;
 //		}
 	}
+	
 }

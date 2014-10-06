@@ -35,9 +35,6 @@ public class Character {
 	
 	public void render(Graphics g) {
 		image.draw(x,y);
-	    //g.drawString("Score : " + Score,200, 10);
-	    //g.setColor( Color.green );
-	    //g.draw(rec);
 	}
 	
 	public void update(GameContainer c) throws SlickException {
@@ -78,7 +75,7 @@ public class Character {
 		vy += GameMain.G;
 		}
 	
-	public void Jump() {
+	public void Jump() throws SlickException {
 		y +=vy;
 		if(y<GameMain.GAME_HEIGHT_ASSUM-HEIGHT){
 			jumpDown();
@@ -87,6 +84,8 @@ public class Character {
 			y = GameMain.GAME_HEIGHT_ASSUM-HEIGHT;
 			vy=0;
 			PointJump = 1;
+			image.destroy();
+			image = new Image("res/Character/Character0.png");
 		}
 		if(y<=0){
 			y = 0;
@@ -152,7 +151,7 @@ public class Character {
 		return false;
 	}
 	
-	public void collider() {
+	public void collider() throws SlickException {
 		if(ColliderWithPodiumDown()==true){
 			y = GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumDown;
 			jumpDown();
@@ -161,6 +160,8 @@ public class Character {
 			y = GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumUp - HEIGHT ;
 			vy = 0;
 			PointJump = 1;
+			image.destroy();
+			image = new Image("res/Character/Character0.png");
 		}
 		if(ColliderWithPodiumDownCenter()==true){
 			y = GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumDownCenter;
@@ -170,6 +171,8 @@ public class Character {
 			y = GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumUpCenter - HEIGHT;
 			vy = 0;
 			PointJump = 1;
+			image.destroy();
+			image = new Image("res/Character/Character0.png");
 		}
 	}
 	

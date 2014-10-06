@@ -11,14 +11,15 @@ public class Heart {
 	public static final int HEIGHT = 60;
 	public static int i=3;
 	
-	
-	public Heart() throws SlickException {
-	}
-	
-	public Heart(float x, float y) throws SlickException {
+	public Heart(float x, float y){
 	    this.x = x;
 	    this.y = y;
-	    image = new Image("res/Heart/3Heart.png");
+	    try {
+			image = new Image("res/Heart/3Heart.png");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void render() {
@@ -30,7 +31,13 @@ public class Heart {
 		if(i>=0){
 			image.destroy();
 			image = new Image("res/Heart/" + i + "Heart.png");
+		}	
+	}
+	
+	public boolean CheckHeart(){
+		if(i==0){
+		return false;
 		}
-		
+		return true;
 	}
 }
