@@ -39,9 +39,7 @@ public class GameMain extends BasicGame {
 	public static int CaltimeMax2s = Caltime2s;
 	public static int Caltime1s = 1;
 	public static boolean Crash = true;
-	public static int Score = 0;
-	public static boolean BeforeAttack = true;
-
+	
 	public GameMain(String title) {
 		super(title);
 		// TODO Auto-generated constructor stub
@@ -99,7 +97,7 @@ public class GameMain extends BasicGame {
 	public void update(GameContainer c, int delta) throws SlickException {
 		if(heart.CheckHeart()==true){
 			time.update(delta);
-			character.update(c);
+			character.update(c,delta);
 			Input input = c.getInput();
 			updateCharacterMovement(input,delta);
 			for(Monster monsters : monster){
@@ -109,7 +107,7 @@ public class GameMain extends BasicGame {
 					Crash = false;
 				}
 			}
-			DeleyMonsterCrash();
+			DelayMonsterCrash();
 			time.setCurrentTime();
 		}
 	}
@@ -134,9 +132,14 @@ public class GameMain extends BasicGame {
 				e.printStackTrace();
 			}
 	    }
-	    if(key == Input.KEY_SPACE && BeforeAttack == true){
+	    if(key == Input.KEY_SPACE){
 		    
-	    	//character.Attack();
+	    	try {
+				character.Attack();
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		    
 	    }
 	}
@@ -167,7 +170,7 @@ public class GameMain extends BasicGame {
 	    monster[4] = new Monster(GAME_WIDTH - Dimension.WIDTH,GAME_HEIGHT_ASSUM-Dimension.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
 	}
 	
-	public void DeleyMonsterCrash(){
+	public void DelayMonsterCrash(){
 		if(time.getOneSec()==1){
 			--Caltime2s;
 		}
@@ -176,17 +179,4 @@ public class GameMain extends BasicGame {
 			Crash = true;
 		}
 	}
-	
-	public void DeleyCharacterAttack(){
-		if(time.getTime()-time.currentTime==1 && Character.AfterAttack==true){
-			--Caltime1s;
-		}
-//		if(caltime1s==0){
-//			System.out.print(time.getTime());
-//			caltime1s = 1;
-//			BeforeAttack = true;
-//			Character.AfterAttack = false;
-//		}
-	}
-	
 }

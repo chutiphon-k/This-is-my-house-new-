@@ -21,7 +21,10 @@ public class Character {
 	public static int PointJump;
 	public static Shape rec;
 	public static int Score = 0;
-	public static boolean AfterAttack;
+	private Time time = new Time();
+	public static boolean m = true;
+	public static int Caltime1s = 1;
+	public static int Caltime1sMax = Caltime1s;
 	
 	public Character(float x, float y , float vx , float vy) throws SlickException {
 	    this.x = x;
@@ -35,13 +38,15 @@ public class Character {
 	
 	public void render(Graphics g) {
 		image.draw(x,y);
+		g.drawString(""+time.getTime(),200,0);
 	}
 	
-	public void update(GameContainer c) throws SlickException {
+	public void update(GameContainer c,int delta) throws SlickException {
+		time.update(delta);
 		rec.setLocation(x, y);
 		Jump();
 		collider();
-		
+		time.setCurrentTime();
 	}
 
 	public void MoveLeft() {
@@ -84,8 +89,10 @@ public class Character {
 			y = GameMain.GAME_HEIGHT_ASSUM-HEIGHT;
 			vy=0;
 			PointJump = 1;
+			if(m==true){
 			image.destroy();
 			image = new Image("res/Character/Character0.png");
+			}
 		}
 		if(y<=0){
 			y = 0;
@@ -102,8 +109,10 @@ public class Character {
 	}
 	
 	public void Attack() throws SlickException{
-			Score +=1;
-		
+		image.destroy();
+		image = new Image("res/Character/CharacterAttack.png");
+		Score +=1;
+		m = false;
 	}
 	
 	public boolean ColliderWithPodiumDown(){
@@ -156,7 +165,10 @@ public class Character {
 			vy = 0;
 			PointJump = 1;
 			image.destroy();
+			if(m==true){
+			image.destroy();
 			image = new Image("res/Character/Character0.png");
+			}
 		}
 		if(ColliderWithPodiumDownCenter()==true){
 			y = GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumDownCenter;
@@ -167,9 +179,21 @@ public class Character {
 			vy = 0;
 			PointJump = 1;
 			image.destroy();
+			if(m==true){
+			image.destroy();
 			image = new Image("res/Character/Character0.png");
+			}
 		}
 	}
 	
-	  
+	public void DelayMonsterCrash(){
+		if(time.getOneSec()==1){
+			--Caltime1s;
+		}
+		if(Caltime1s==0){
+			Caltime1s = Caltime1sMax;
+			m = true;
+		}
+	}
+		
 }
