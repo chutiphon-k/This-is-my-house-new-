@@ -38,7 +38,7 @@ public class Character {
 	
 	public void render(Graphics g) {
 		image.draw(x,y);
-		g.drawString(""+time.getTime(),200,0);
+		g.drawString("Score : "+Score,200,10);
 	}
 	
 	public void update(GameContainer c,int delta) throws SlickException {
@@ -46,6 +46,7 @@ public class Character {
 		rec.setLocation(x, y);
 		Jump();
 		collider();
+		DelayAttack();
 		time.setCurrentTime();
 	}
 
@@ -110,7 +111,7 @@ public class Character {
 	
 	public void Attack() throws SlickException{
 		image.destroy();
-		image = new Image("res/Character/CharacterAttack.png");
+		image = new Image("res/Character/Character0.png");
 		Score +=1;
 		m = false;
 	}
@@ -186,7 +187,7 @@ public class Character {
 		}
 	}
 	
-	public void DelayMonsterCrash(){
+	public void DelayAttack(){
 		if(time.getOneSec()==1){
 			--Caltime1s;
 		}
