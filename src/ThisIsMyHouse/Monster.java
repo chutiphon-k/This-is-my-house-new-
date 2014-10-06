@@ -260,7 +260,7 @@ public class Monster {
 	}
 	
 	public boolean CheckAreaBottom(float y){
-		if(y<=GameMain.GAME_HEIGHT_ASSUM && y>=GameMain.GAME_HEIGHT_ASSUM-GameMain.DistanceBottomAndPodiumDown){
+		if(y<=GameMain.GAME_HEIGHT_ASSUM && y>=GameMain.GAME_HEIGHT_ASSUM-GameMain.DistanceBottomAndPodiumDown ){
 			return true;
 		}
 		else{

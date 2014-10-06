@@ -24,8 +24,4 @@ public class Time {
 		currentTime = time/1000;
 	}
 	
-	public int setCurrentTime1(){
-		
-		return currentTime;
-	}
 }

@@ -1,6 +1,8 @@
 package ThisIsMyHouse;
 
 
+import java.awt.Font;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -33,7 +35,8 @@ public class GameMain extends BasicGame {
 	public static final float DistanceBottomAndPodiumDownCenter = DistanceBottomAndPodiumUpCenter - Podium.HEIGHT;
 	public static final float Monster_JUMP_VY =  (float)7;
 	public static final float Monster_MOVE_VX =  (float)2;
-	public static int Caltime2s = 2;
+	public static int Caltime2s = 3;
+	public static int CaltimeMax2s = Caltime2s;
 	public static int Caltime1s = 1;
 	public static boolean Crash = true;
 	public static int Score = 0;
@@ -59,21 +62,26 @@ public class GameMain extends BasicGame {
 
 	@Override
 	public void render(GameContainer arg0, Graphics g) throws SlickException {
-		BGImage.draw(0,0);
-	    for (Podium podiums : podium) {
-	    	podiums.render();
-	    }
-	    for (Dimension dimensions : dimension) {
-	    	dimensions.render();
-	    }
-		character.render(g);
-	    color  = new Color(255,0,0);
-	    g.setColor(color);
-	    g.drawString("Time : " + time.getTime(),100, 10);
-	    for(int i = 0;i<5;i++){
-	    	monster[i].render(g);
-	    }
-	    heart.render();
+		if(heart.CheckHeart()==true){
+			BGImage.draw(0,0);
+			color  = new Color(255,0,0);
+			g.setColor(color);
+			g.drawString("Time : " + time.getTime(),100, 10);
+			for (Podium podiums : podium) {
+				podiums.render();
+			}
+			for (Dimension dimensions : dimension) {
+				dimensions.render();
+			}
+			character.render(g);
+			for(Monster monsters : monster){
+				monsters.render(g);
+			}
+			heart.render();
+		}
+		else{
+			g.drawString("Game Over",GAME_WIDTH/2 - 50,GAME_HEIGHT/2);
+		}
 	}
 
 	@Override
@@ -89,19 +97,21 @@ public class GameMain extends BasicGame {
 
 	@Override
 	public void update(GameContainer c, int delta) throws SlickException {
-		time.update(delta);
-		DeleyMonsterCrash();
-		character.update(c);
-		Input input = c.getInput();
-		updateCharacterMovement(input,delta);
-	    for(int i = 0;i<5;i++){
-	    	monster[i].update(c);
-			if(monster[i].CheckMonIntersectsChar()==true){
-				heart.update();
-				Crash = false;
+		if(heart.CheckHeart()==true){
+			time.update(delta);
+			character.update(c);
+			Input input = c.getInput();
+			updateCharacterMovement(input,delta);
+			for(Monster monsters : monster){
+				monsters.update(c);
+				if(monsters.CheckMonIntersectsChar()==true){
+					heart.update();
+					Crash = false;
+				}
 			}
-	    }
-	    time.setCurrentTime();
+			DeleyMonsterCrash();
+			time.setCurrentTime();
+		}
 	}
 	
 	public static void updateCharacterMovement(Input input, int delta){
@@ -125,7 +135,8 @@ public class GameMain extends BasicGame {
 			}
 	    }
 	    if(key == Input.KEY_SPACE && BeforeAttack == true){
-		    //character.Attack();
+		    
+	    	//character.Attack();
 		    
 	    }
 	}
@@ -157,11 +168,11 @@ public class GameMain extends BasicGame {
 	}
 	
 	public void DeleyMonsterCrash(){
-		if(time.getTime()-time.currentTime==1){
+		if(time.getOneSec()==1){
 			--Caltime2s;
 		}
 		if(Caltime2s==0){
-			Caltime2s = 2;
+			Caltime2s = CaltimeMax2s;
 			Crash = true;
 		}
 	}
