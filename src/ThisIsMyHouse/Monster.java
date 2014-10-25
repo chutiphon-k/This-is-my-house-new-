@@ -2,7 +2,6 @@ package ThisIsMyHouse;
 
 import java.util.Random;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -18,25 +17,20 @@ public class Monster {
 	private float vjump;
 	private float vjumpStart;
 	private Character character;
-	private Image image;
-	public static final int WIDTH = 80;
-	public static final int HEIGHT = 65;
 	private String Direction;
 	private int PointJump=1;
 	private Random random = new Random();
 	private Shape rec;
-	//private Heart heart = new Heart(GameMain.GAME_WIDTH-Heart.WIDTH-10,0);
-	private Time time;
-	//public static int caltime=5;
-	//public static boolean AfterCrash;
+	private Image image;
+	public static final int WIDTH = 80;
+	public static final int HEIGHT = 65;
 	public static int score = 0;
 	
 	public Monster() throws SlickException {
 	}
 	
-	public Monster(float x, float y , float vx , float vy) throws SlickException {
-	    this.x = x;
-	    this.y = y;
+	public Monster(float vx , float vy) throws SlickException {
+		RandomPosition();
 	    this.vx = vx;
 	    this.vy = vy;
 	    this.vjumpStart = vy;
@@ -44,17 +38,11 @@ public class Monster {
 	    Direction = RandomMovement();
 	    rec = new Rectangle(x,y,80,65);
 	    image = new Image("res/Monster/slime0.png");
-	    time = new Time();
+	    RandomVX();
 	}
 	
 	public void render(Graphics g) throws SlickException {
 		image.draw(x,y);
-//		if(CheckMonIntersectsChar()==true){
-//			heart.update();
-//			AfterCrash = true;
-//			GameMain.BeforeCrash = false;
-//		}
-//		heart.render();
 	}
 	
 	public void update(GameContainer c){
@@ -65,7 +53,7 @@ public class Monster {
 	}
 	
 	public void Movement(){
-		if(CheckAreaBottom(y)==true && CheckAreaBottom(Character.y)==true){
+		if(CheckAreaBottom(y) && CheckAreaBottom(Character.y)){
 			Direction = RandomMovement();
 			if(x<=character.x){
 				MoveRight();
@@ -75,7 +63,7 @@ public class Monster {
 			}	
 		}
 		
-		else if(CheckAreaMiddle(y)==true && CheckAreaMiddle(Character.y)==true && Character.x<=Podium.WIDTH && x<=Podium.WIDTH){
+		else if(CheckAreaMiddle(y) && CheckAreaMiddle(Character.y) && Character.x<=Podium.WIDTH && x<=Podium.WIDTH){
 			Direction = RandomMovement();
 			if(Character.x<=Podium.WIDTH && x<=Podium.WIDTH){
 				if(x<=character.x){
@@ -87,7 +75,7 @@ public class Monster {
 			}
 		}
 		
-		else if(CheckAreaMiddle(y)==true && CheckAreaMiddle(Character.y)==true && Character.x>=GameMain.GAME_WIDTH - Podium.WIDTH - Character.WIDTH && x>=GameMain.GAME_WIDTH - Podium.WIDTH ){
+		else if(CheckAreaMiddle(y) && CheckAreaMiddle(Character.y) && Character.x>=GameMain.GAME_WIDTH - Podium.WIDTH - Character.WIDTH && x>=GameMain.GAME_WIDTH - Podium.WIDTH ){
 			Direction = RandomMovement();
 			if(x<=character.x){
 				MoveRight();
@@ -97,7 +85,7 @@ public class Monster {
 			}
 		}
 		
-		else if(CheckAreaTop(y)==true && CheckAreaTop(Character.y)==true){
+		else if(CheckAreaTop(y) && CheckAreaTop(Character.y)){
 			Direction = RandomMovement();
 			if(x<=character.x){
 				MoveRight();
@@ -120,22 +108,22 @@ public class Monster {
 	
 	public void MoveLeft() {
 		if(x>0){
-			if(CheckAreaBottom(y)==true){
+			if(CheckAreaBottom(y)){
 				x -=vx;
 			}
 			
-			if(CheckAreaMiddle(y)==true && (x<=Podium.WIDTH || x>=GameMain.GAME_WIDTH - Podium.WIDTH)){
+			if(CheckAreaMiddle(y)&& (x<=Podium.WIDTH || x>=GameMain.GAME_WIDTH - Podium.WIDTH)){
 				x -=vx;
 			}
-			if(CheckAreaMiddle(y)==true && (x<GameMain.GAME_WIDTH - Podium.WIDTH && x>=GameMain.GAME_WIDTH - Podium.WIDTH - vx)){
+			if(CheckAreaMiddle(y) && (x<GameMain.GAME_WIDTH - Podium.WIDTH && x>=GameMain.GAME_WIDTH - Podium.WIDTH - vx)){
 				x = GameMain.GAME_WIDTH - Podium.WIDTH;
 				Direction = "R";
 			}
 			
-			if(CheckAreaTop(y)==true && (x>=GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 && x<=GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - WIDTH)){
+			if(CheckAreaTop(y) && (x>=GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 && x<=GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - WIDTH)){
 				x -=vx;
 			}
-			if(CheckAreaTop(y)==true && (x<GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 && x>=GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 - vx)){
+			if(CheckAreaTop(y) && (x<GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 && x>=GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 - vx)){
 				x = GameMain.GAME_WIDTH/2 - Podium.WIDTH/2;
 				Direction = "R";
 			}
@@ -148,22 +136,22 @@ public class Monster {
 
 	public void MoveRight() {
 		if(x<GameMain.GAME_WIDTH-WIDTH){
-			if(CheckAreaBottom(y)==true){
+			if(CheckAreaBottom(y)){
 				x +=vx;
 			}
 			
-			if(CheckAreaMiddle(y)==true && (x<=Podium.WIDTH || x>=GameMain.GAME_WIDTH - Podium.WIDTH)){
+			if(CheckAreaMiddle(y) && (x<=Podium.WIDTH || x>=GameMain.GAME_WIDTH - Podium.WIDTH)){
 				x +=vx;
 			}
-			if(CheckAreaMiddle(y)==true && x>Podium.WIDTH - WIDTH && x<=Podium.WIDTH - WIDTH + vx){
+			if(CheckAreaMiddle(y) && x>Podium.WIDTH - WIDTH && x<=Podium.WIDTH - WIDTH + vx){
 				x = Podium.WIDTH - WIDTH;
 				Direction = "L";
 			}
 			
-			if(CheckAreaTop(y)==true && (x>=GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 && x<=GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - WIDTH)){
+			if(CheckAreaTop(y) && (x>=GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 && x<=GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - WIDTH)){
 				x +=vx;
 			}
-			if(CheckAreaTop(y)==true && (x>GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - WIDTH && x<=GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - WIDTH + vx)){
+			if(CheckAreaTop(y) && (x>GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - WIDTH && x<=GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - WIDTH + vx)){
 				x = GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - WIDTH;
 				Direction = "L";
 			}
@@ -224,12 +212,12 @@ public class Monster {
 	}
 	
 	public void collider() {
-		if(ColliderWithPodiumUp()==true){
+		if(ColliderWithPodiumUp()){
 			y = GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumUp - HEIGHT;
 			vy = 0;
 			PointJump = 1;
 		}
-		if(ColliderWithPodiumUpCenter()==true){
+		if(ColliderWithPodiumUpCenter()){
 			y = GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumUpCenter - HEIGHT;
 			vy = 0;
 			PointJump = 1;
@@ -257,6 +245,25 @@ public class Monster {
 		else{
 			return vjumpStart+2;
 			}
+	}
+	
+	public void RandomVX(){
+		int n = random.nextInt(90)+1;
+		if(n>=80){
+			vx =  GameMain.Monster_MOVE_VX - 0.25f;
+			}
+		else if(n>=60){
+			vx = GameMain.Monster_MOVE_VX - 0.5f;
+		}
+		else if(n>=40){
+			vx = GameMain.Monster_MOVE_VX;
+		}
+		else if(n>=20){
+			vx = GameMain.Monster_MOVE_VX + 0.25f;
+		}
+		else{
+			vx = GameMain.Monster_MOVE_VX + 0.5f;
+		}
 	}
 	
 	public boolean CheckAreaBottom(float y){
@@ -287,11 +294,35 @@ public class Monster {
 	}
 	
 	public boolean CheckMonIntersectsChar(){
-		if((this.rec).intersects(character.rec) && GameMain.Crash==true){
+		if((this.rec).intersects(character.rec)){
 			return true;
 		}
 		else{
 			return false;
+		}
+	}
+	
+	public void RandomPosition(){
+		int n = random.nextInt(100)+1;
+		if(n>80){
+			x = 0;
+			y = GameMain.GAME_HEIGHT_ASSUM-Dimension.HEIGHT/2;
+		}
+		else if(n>=60){
+			x = 0;
+			y = GameMain.GAME_HEIGHT_ASSUM-GameMain.DistanceBottomAndPodiumUp - Dimension.HEIGHT/2;
+		}
+		else if(n>=40){
+			x = GameMain.GAME_WIDTH/2;
+			y = GameMain.GAME_HEIGHT_ASSUM-GameMain.DistanceBottomAndPodiumUpCenter - Dimension.HEIGHT/2;
+		}
+		else if(n>=20){
+			x = GameMain.GAME_WIDTH - Dimension.WIDTH/2;
+			y = GameMain.GAME_HEIGHT_ASSUM-GameMain.DistanceBottomAndPodiumUp - Dimension.HEIGHT/2;
+		}
+		else{
+			x = GameMain.GAME_WIDTH - Dimension.WIDTH/2;
+			y = GameMain.GAME_HEIGHT_ASSUM-Dimension.HEIGHT/2;
 		}
 	}
 }

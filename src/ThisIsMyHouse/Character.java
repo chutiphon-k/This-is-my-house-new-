@@ -14,17 +14,13 @@ public class Character {
 	private float vy;
 	private float vjump;
 	private Image image;
-	private Monster monster = new Monster();
 	public static final int WIDTH = 83;
 	public static final int WIDTH_Attack = 10;
 	public static final int HEIGHT = 110;
 	public static int PointJump;
 	public static Shape rec;
-	public static int Score = 0;
 	private Time time = new Time();
-	public static boolean m = true;
-	public static int Caltime1s = 1;
-	public static int Caltime1sMax = Caltime1s;
+	public static int k = 0;
 	
 	public Character(float x, float y , float vx , float vy) throws SlickException {
 	    this.x = x;
@@ -38,7 +34,7 @@ public class Character {
 	
 	public void render(Graphics g) {
 		image.draw(x,y);
-		g.drawString("Score : "+Score,200,10);
+		g.drawString("Attack : " + k,200, 10);
 	}
 	
 	public void update(GameContainer c,int delta) throws SlickException {
@@ -46,7 +42,6 @@ public class Character {
 		rec.setLocation(x, y);
 		Jump();
 		collider();
-		DelayAttack();
 		time.setCurrentTime();
 	}
 
@@ -90,10 +85,8 @@ public class Character {
 			y = GameMain.GAME_HEIGHT_ASSUM-HEIGHT;
 			vy=0;
 			PointJump = 1;
-			if(m==true){
 			image.destroy();
 			image = new Image("res/Character/Character0.png");
-			}
 		}
 		if(y<=0){
 			y = 0;
@@ -109,11 +102,8 @@ public class Character {
 		}
 	}
 	
-	public void Attack() throws SlickException{
-		image.destroy();
-		image = new Image("res/Character/Character0.png");
-		Score +=1;
-		m = false;
+	public void Attack(){
+		k++;
 	}
 	
 	public boolean ColliderWithPodiumDown(){
@@ -166,10 +156,7 @@ public class Character {
 			vy = 0;
 			PointJump = 1;
 			image.destroy();
-			if(m==true){
-			image.destroy();
 			image = new Image("res/Character/Character0.png");
-			}
 		}
 		if(ColliderWithPodiumDownCenter()==true){
 			y = GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumDownCenter;
@@ -180,21 +167,9 @@ public class Character {
 			vy = 0;
 			PointJump = 1;
 			image.destroy();
-			if(m==true){
-			image.destroy();
 			image = new Image("res/Character/Character0.png");
-			}
 		}
 	}
 	
-	public void DelayAttack(){
-		if(time.getOneSec()==1){
-			--Caltime1s;
-		}
-		if(Caltime1s==0){
-			Caltime1s = Caltime1sMax;
-			m = true;
-		}
-	}
 		
 }

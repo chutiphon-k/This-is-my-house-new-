@@ -21,6 +21,9 @@ public class GameMain extends BasicGame {
 	private Color color;
 	private Time time;
 	private Heart heart;
+	public static int Caltime3s = 3;
+	public static int CaltimeMax3s = Caltime3s;
+	public static boolean Crash = true;
 	public static final int platform = 55;
 	public static final int GAME_WIDTH = 800;
 	public static final int GAME_HEIGHT = 600;
@@ -35,10 +38,9 @@ public class GameMain extends BasicGame {
 	public static final float DistanceBottomAndPodiumDownCenter = DistanceBottomAndPodiumUpCenter - Podium.HEIGHT;
 	public static final float Monster_JUMP_VY =  (float)7;
 	public static final float Monster_MOVE_VX =  (float)2;
-	public static int Caltime2s = 3;
-	public static int CaltimeMax2s = Caltime2s;
-	public static int Caltime1s = 1;
-	public static boolean Crash = true;
+	public static final int Monster_Amount = 15;
+	public static boolean y = false;
+	
 	
 	public GameMain(String title) {
 		super(title);
@@ -60,26 +62,33 @@ public class GameMain extends BasicGame {
 
 	@Override
 	public void render(GameContainer arg0, Graphics g) throws SlickException {
-		if(heart.CheckHeart()==true){
+		if(heart.CheckHeart()){
 			BGImage.draw(0,0);
 			color  = new Color(255,0,0);
 			g.setColor(color);
-			g.drawString("Time : " + time.getTime(),100, 10);
+			g.drawString("Time : " + time.getTime() + " second",100, 10);
+			//
 			for (Podium podiums : podium) {
 				podiums.render();
 			}
+			//
 			for (Dimension dimensions : dimension) {
 				dimensions.render();
 			}
+			//
 			character.render(g);
+			//
 			for(Monster monsters : monster){
 				monsters.render(g);
 			}
 			heart.render();
 		}
+		//
 		else{
 			g.drawString("Game Over",GAME_WIDTH/2 - 50,GAME_HEIGHT/2);
+			g.drawString("Time : " + time.getTime() + " second",GAME_WIDTH/2-75,GAME_HEIGHT/2 + 20);
 		}
+		//
 	}
 
 	@Override
@@ -95,14 +104,14 @@ public class GameMain extends BasicGame {
 
 	@Override
 	public void update(GameContainer c, int delta) throws SlickException {
-		if(heart.CheckHeart()==true){
+		if(heart.CheckHeart()){
 			time.update(delta);
 			character.update(c,delta);
 			Input input = c.getInput();
 			updateCharacterMovement(input,delta);
 			for(Monster monsters : monster){
 				monsters.update(c);
-				if(monsters.CheckMonIntersectsChar()==true){
+				if(monsters.CheckMonIntersectsChar()&&Crash){
 					heart.update();
 					Crash = false;
 				}
@@ -133,14 +142,7 @@ public class GameMain extends BasicGame {
 			}
 	    }
 	    if(key == Input.KEY_SPACE){
-		    
-	    	try {
-				character.Attack();
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		    
+				y = true;   
 	    }
 	}
 	
@@ -162,20 +164,18 @@ public class GameMain extends BasicGame {
 	}
 
 	public void initMonster() throws SlickException {
-		monster = new Monster[5];
-	    monster[0] = new Monster(0,GAME_HEIGHT_ASSUM-Dimension.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
-	    monster[1] = new Monster(0,GAME_HEIGHT_ASSUM-DistanceBottomAndPodiumUp - Dimension.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
-	    monster[2] = new Monster(GAME_WIDTH/2 - Dimension.WIDTH/2,GAME_HEIGHT_ASSUM-DistanceBottomAndPodiumUpCenter - Dimension.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
-	    monster[3] = new Monster(GAME_WIDTH - Dimension.WIDTH,GAME_HEIGHT_ASSUM-DistanceBottomAndPodiumUp - Dimension.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
-	    monster[4] = new Monster(GAME_WIDTH - Dimension.WIDTH,GAME_HEIGHT_ASSUM-Dimension.HEIGHT,Monster_MOVE_VX,Monster_JUMP_VY);
+		monster = new Monster[Monster_Amount];
+		for(int i = 0;i<monster.length;i++){
+			monster[i] = new Monster(Monster_MOVE_VX,Monster_JUMP_VY);
+		}
 	}
 	
 	public void DelayMonsterCrash(){
 		if(time.getOneSec()==1){
-			--Caltime2s;
+			--Caltime3s;
 		}
-		if(Caltime2s==0){
-			Caltime2s = CaltimeMax2s;
+		if(Caltime3s==0){
+			Caltime3s = CaltimeMax3s;
 			Crash = true;
 		}
 	}

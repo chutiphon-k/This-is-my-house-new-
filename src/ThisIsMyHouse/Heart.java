@@ -36,7 +36,7 @@ public class Heart {
 	
 	public boolean CheckHeart(){
 		if(i==0){
-		return false;
+		return true;
 		}
 		return true;
 	}
