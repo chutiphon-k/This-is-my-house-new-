@@ -19,6 +19,7 @@ public class Character {
 	public static final int HEIGHT = 110;
 	public static int PointJump;
 	public static Shape rec;
+	public static Shape recAttack;
 	private Time time = new Time();
 	public static int k = 0;
 	

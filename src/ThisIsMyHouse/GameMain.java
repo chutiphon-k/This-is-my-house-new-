@@ -67,15 +67,12 @@ public class GameMain extends BasicGame {
 			color  = new Color(255,0,0);
 			g.setColor(color);
 			g.drawString("Time : " + time.getTime() + " second",100, 10);
-			//
 			for (Podium podiums : podium) {
 				podiums.render();
 			}
-			//
 			for (Dimension dimensions : dimension) {
 				dimensions.render();
 			}
-			//
 			character.render(g);
 			//
 			for(Monster monsters : monster){
@@ -83,12 +80,10 @@ public class GameMain extends BasicGame {
 			}
 			heart.render();
 		}
-		//
 		else{
 			g.drawString("Game Over",GAME_WIDTH/2 - 50,GAME_HEIGHT/2);
 			g.drawString("Time : " + time.getTime() + " second",GAME_WIDTH/2-75,GAME_HEIGHT/2 + 20);
 		}
-		//
 	}
 
 	@Override
@@ -111,7 +106,12 @@ public class GameMain extends BasicGame {
 			updateCharacterMovement(input,delta);
 			for(Monster monsters : monster){
 				monsters.update(c);
-				if(monsters.CheckMonIntersectsChar()&&Crash){
+				if(monsters.CheckMonIntersectsChar()&&y){
+					character.Attack();
+					monsters.DestroyMonster();
+					y = false;
+				}
+				else if(monsters.CheckMonIntersectsChar()&&Crash){
 					heart.update();
 					Crash = false;
 				}

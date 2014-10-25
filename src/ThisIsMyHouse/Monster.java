@@ -294,7 +294,7 @@ public class Monster {
 	}
 	
 	public boolean CheckMonIntersectsChar(){
-		if((this.rec).intersects(character.rec)){
+		if((this.rec).intersects(Character.rec)){
 			return true;
 		}
 		else{
@@ -324,5 +324,9 @@ public class Monster {
 			x = GameMain.GAME_WIDTH - Dimension.WIDTH/2;
 			y = GameMain.GAME_HEIGHT_ASSUM-Dimension.HEIGHT/2;
 		}
+	}
+	
+	public void DestroyMonster(){
+		RandomPosition();
 	}
 }
