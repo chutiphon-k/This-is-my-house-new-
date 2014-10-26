@@ -11,8 +11,10 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
 
-public class GameMain extends BasicGame {
+public class GameMain extends BasicGameState {
 	private Image BGImage;
 	private Podium[] podium;
 	private Dimension[] dimension;
@@ -24,10 +26,6 @@ public class GameMain extends BasicGame {
 	public static int Caltime3s = 3;
 	public static int CaltimeMax3s = Caltime3s;
 	public static boolean Crash = true;
-	public static final int platform = 55;
-	public static final int GAME_WIDTH = 800;
-	public static final int GAME_HEIGHT = 600;
-	public static final int GAME_HEIGHT_ASSUM = 600 - GameMain.platform;
 	public static final float G =  (float)1;
 	public static final float GMonster =  (float)0.5;
 	public static final float Character_JUMP_VY =  (float)22;
@@ -40,28 +38,28 @@ public class GameMain extends BasicGame {
 	public static final float Monster_MOVE_VX =  (float)2;
 	public static final int Monster_Amount = 10;
 	public static boolean IsAttack = false;
+	public static int Monster_Rest = 50;
+	public static final int platform = SetupClass.platform;
+	public static final int GAME_WIDTH = SetupClass.GAME_WIDTH;
+	public static final int GAME_HEIGHT = SetupClass.GAME_HEIGHT;
+	public static final int GAME_HEIGHT_ASSUM = SetupClass.GAME_HEIGHT - platform;
 	
-	
-	public GameMain(String title) {
-		super(title);
-		// TODO Auto-generated constructor stub
-	}
-
-	public static void main(String[] args) {
-		try {
-		      GameMain game = new GameMain("This is my world!!!");
-		      AppGameContainer container = new AppGameContainer(game);
-		      container.setDisplayMode(GAME_WIDTH,GAME_HEIGHT, false);
-		      container.setMinimumLogicUpdateInterval(1000 / 60);
-		      container.start();
-		    } catch (SlickException e) {
-		      e.printStackTrace();
-		    }
-
+	@Override
+	public void init(GameContainer arg0, StateBasedGame arg1)
+			throws SlickException {
+		BGImage = new Image("res/BG/BG.png");
+		character = new Character(GAME_WIDTH/2 - Character.WIDTH/2,GAME_HEIGHT_ASSUM-Character.HEIGHT,Character_MOVE_VX,Character_JUMP_VY);
+		time = new Time();
+		initPodium();
+		initDimension();
+		initMonster();
+		heart = new Heart(GameMain.GAME_WIDTH-Heart.WIDTH-10,0);
+		
 	}
 
 	@Override
-	public void render(GameContainer arg0, Graphics g) throws SlickException {
+	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g)
+			throws SlickException {
 		if(heart.CheckHeart()){
 			BGImage.draw(0,0);
 			color  = new Color(255,0,0);
@@ -84,21 +82,12 @@ public class GameMain extends BasicGame {
 			g.drawString("Game Over",GAME_WIDTH/2 - 50,GAME_HEIGHT/2);
 			g.drawString("Time : " + time.getTime() + " second",GAME_WIDTH/2-75,GAME_HEIGHT/2 + 20);
 		}
+		
 	}
 
 	@Override
-	public void init(GameContainer arg0) throws SlickException {
-		BGImage = new Image("res/BG/BG.png");
-		character = new Character(GAME_WIDTH/2 - Character.WIDTH/2,GAME_HEIGHT_ASSUM-Character.HEIGHT,Character_MOVE_VX,Character_JUMP_VY);
-		time = new Time();
-		initPodium();
-		initDimension();
-		initMonster();
-		heart = new Heart(GameMain.GAME_WIDTH-Heart.WIDTH-10,0);
-	}
-
-	@Override
-	public void update(GameContainer c, int delta) throws SlickException {
+	public void update(GameContainer c, StateBasedGame arg1, int delta)
+			throws SlickException {
 		if(heart.CheckHeart()){
 			time.update(delta);
 			character.update(c,delta);
@@ -106,7 +95,7 @@ public class GameMain extends BasicGame {
 			updateCharacterMovement(input,delta);
 			for(Monster monsters : monster){
 				monsters.update(c);
-				if(monsters.CheckMonIntersectsChar()&&IsAttack){
+				if(monsters.CheckMonIntersectsChar()&&c.getInput().isKeyPressed(Input.KEY_SPACE)){
 					character.Attack();
 					monsters.DestroyMonster();
 					IsAttack = false;
@@ -128,7 +117,76 @@ public class GameMain extends BasicGame {
 	    if (input.isKeyDown(Input.KEY_RIGHT)) {
 	        character.MoveRight();
 	      }
+		
 	}
+	
+
+//	public void render(GameContainer arg0, Graphics g) throws SlickException {
+//		if(heart.CheckHeart()){
+//			BGImage.draw(0,0);
+//			color  = new Color(255,0,0);
+//			g.setColor(color);
+//			g.drawString("Time : " + time.getTime() + " second",100, 10);
+//			for (Podium podiums : podium) {
+//				podiums.render();
+//			}
+//			for (Dimension dimensions : dimension) {
+//				dimensions.render();
+//			}
+//			character.render(g);
+//			
+//			for(Monster monsters : monster){
+//				monsters.render(g);
+//			}
+//			heart.render();
+//		}
+//		else{
+//			g.drawString("Game Over",GAME_WIDTH/2 - 50,GAME_HEIGHT/2);
+//			g.drawString("Time : " + time.getTime() + " second",GAME_WIDTH/2-75,GAME_HEIGHT/2 + 20);
+//		}
+//	}
+
+//	public void init(GameContainer arg0) throws SlickException {
+//		BGImage = new Image("res/BG/BG.png");
+//		character = new Character(GAME_WIDTH/2 - Character.WIDTH/2,GAME_HEIGHT_ASSUM-Character.HEIGHT,Character_MOVE_VX,Character_JUMP_VY);
+//		time = new Time();
+//		initPodium();
+//		initDimension();
+//		initMonster();
+//		heart = new Heart(GameMain.GAME_WIDTH-Heart.WIDTH-10,0);
+//	}
+
+//	public void update(GameContainer c, int delta) throws SlickException {
+//		if(heart.CheckHeart()){
+//			time.update(delta);
+//			character.update(c,delta);
+//			Input input = c.getInput();
+//			updateCharacterMovement(input,delta);
+//			for(Monster monsters : monster){
+//				monsters.update(c);
+//				if(monsters.CheckMonIntersectsChar()&&c.getInput().isKeyPressed(Input.KEY_SPACE)){
+//					character.Attack();
+//					monsters.DestroyMonster();
+//					IsAttack = false;
+//				}
+//				else if(monsters.CheckMonIntersectsChar()&&Crash){
+//					heart.update();
+//					Crash = false;
+//				}
+//			}
+//			DelayMonsterCrash();
+//			time.setCurrentTime();
+//		}
+//	}
+//	
+//	public static void updateCharacterMovement(Input input, int delta){
+//	    if (input.isKeyDown(Input.KEY_LEFT)) {
+//	        character.MoveLeft();
+//	      }
+//	    if (input.isKeyDown(Input.KEY_RIGHT)) {
+//	        character.MoveRight();
+//	      }
+//	}
 	
 	
 	@Override
@@ -179,5 +237,11 @@ public class GameMain extends BasicGame {
 			Caltime3s = CaltimeMax3s;
 			Crash = true;
 		}
+	}
+
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

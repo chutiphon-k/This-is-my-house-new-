@@ -22,7 +22,6 @@ public class Character {
 	public static Shape rec;
 	public static Shape recAttack;
 	private Time time = new Time();
-	public static int k = 0;
 	public static String Action = "stand";
 	public static int Caltime2s = 1;
 	public static int CaltimeMax2s = Caltime2s;
@@ -59,7 +58,7 @@ public class Character {
 			image.draw(x,y);
 		}
 		CharacterAction();
-		g.drawString("score : " + k,200,200);
+		g.drawString("score : " + GameMain.Monster_Rest,200,200);
 		g.drawString("Action : " + Action,300,00);
 	}
 	
@@ -134,7 +133,7 @@ public class Character {
 	}
 	
 	public void Attack(){
-		k++;
+		GameMain.Monster_Rest--;
 	}
 	
 	public boolean ColliderWithPodiumDown(){
