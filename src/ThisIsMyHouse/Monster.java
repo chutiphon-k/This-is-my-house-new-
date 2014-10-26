@@ -30,6 +30,7 @@ public class Monster {
 	}
 	
 	public Monster(float vx , float vy) throws SlickException {
+		
 		RandomPosition();
 	    this.vx = vx;
 	    this.vy = vy;
