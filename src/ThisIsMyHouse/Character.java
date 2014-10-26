@@ -23,12 +23,15 @@ public class Character {
 	public static Shape recAttack;
 	private Time time = new Time();
 	public static int k = 0;
-	private SpriteSheet Sheet_Walk;
-	private Animation Anima_Walk;
 	public static String Action = "stand";
 	public static int Caltime2s = 1;
 	public static int CaltimeMax2s = Caltime2s;
+	private SpriteSheet Sheet_Attack;
+	private Animation Anima_Attack;
+	private SpriteSheet Sheet_Walk;
+	private Animation Anima_Walk;
 	public static int PointJump;
+	
 	
 	
 	public Character(float x, float y , float vx , float vy) throws SlickException {
@@ -39,13 +42,23 @@ public class Character {
 	    this.vjump = vy;
 	    rec = new Rectangle(x,y,WIDTH,HEIGHT);
 	    image = new Image("res/Character/Character0.png");
-	    Sheet_Walk = new SpriteSheet("res/Character/q.png",83,110);
-	    Anima_Walk = new Animation(Sheet_Walk,50);
+	    Sheet_Attack = new SpriteSheet("res/Character/q.png",83,110);
+	    Anima_Attack = new Animation(Sheet_Attack,100);
+	    Sheet_Walk = new SpriteSheet("res/Character/characterwalk2.png",83,110);
+	    Anima_Walk = new Animation(Sheet_Walk,100);
 	}
 	
 	public void render(Graphics g) throws SlickException{
+		if(Action == "attack"){
+			Anima_Attack.draw(x,y);
+		}
+		else if(Action == "move"){
+			Anima_Walk.draw(x,y);
+		}
+		else{
+			image.draw(x,y);
+		}
 		CharacterAction();
-		image.draw(x,y);
 		g.drawString("score : " + k,200,200);
 		g.drawString("Action : " + Action,300,00);
 	}
@@ -60,6 +73,7 @@ public class Character {
 	}
 
 	public void MoveLeft() {
+		Action = "move";
 		if(x>0){
 			x -=vx;
 		}
@@ -69,6 +83,7 @@ public class Character {
 	}
 
 	public void MoveRight() {
+		Action = "move";
 		if(x<(GameMain.GAME_WIDTH-WIDTH)){
 			x +=vx;
 		}
@@ -78,9 +93,10 @@ public class Character {
 	}
 
 	public void jumpUp() throws SlickException {
-		if(Action == "stand"){
+		if(PointJump == 1){
 			vy = -vjump;
 			Action = "jump";
+			PointJump = 0;
 		}
 	}
 	
@@ -99,6 +115,7 @@ public class Character {
 			if(Action != "attack"){
 			Action = "stand";
 			}
+			PointJump = 1;
 		}
 		if(y<=0){
 			y = 0;
@@ -107,10 +124,12 @@ public class Character {
 		if(x>=Podium.WIDTH + 25 - Character.WIDTH && x<=GameMain.GAME_WIDTH - Podium.WIDTH - 25 
 				&& (y<GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumDown  - HEIGHT/2 && y> GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumUp- HEIGHT)){
 			Action = "jump";
+			PointJump = 0;
 		}
 		if(((x<GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 - Character.WIDTH +25 && x>=0) || (x>GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - 25 && x<=GameMain.GAME_WIDTH))
 				&& (y<=GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumDownCenter  && y> GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumUpCenter  - HEIGHT)){
 			Action = "jump";
+			PointJump = 0;
 		}
 	}
 	
@@ -169,6 +188,7 @@ public class Character {
 			if(Action != "attack"){
 			Action = "stand";
 			}
+			PointJump = 1;
 		}
 		if(ColliderWithPodiumDownCenter()==true){
 			y = GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumDownCenter;
@@ -180,16 +200,17 @@ public class Character {
 			if(Action != "attack"){
 			Action = "stand";
 			}
+			PointJump = 1;
 		}
 	}
 	
 	public void CharacterAction() throws SlickException{
 		if(Action == "attack"){
-			image.destroy();
-			image = new Image("res/Character/characterattack.png");
+			Anima_Attack.start();
 		}
 		else if(Action == "stand"){
-			//Anima_Walk.stop();
+			Anima_Attack.stop();
+			Anima_Walk.stop();
 			image.destroy();
 			image = new Image("res/Character/Character0.png");
 		}
@@ -197,10 +218,10 @@ public class Character {
 			image.destroy();
 			image = new Image("res/Character/CharacterJump.png");
 		}
-//		else if(Action == "move"){
-//			Anima_Walk.draw(x,y);
-//			Action = "stand";
-//		}
+		else if(Action == "move"){
+			Anima_Walk.start();
+			//Action = "stand";
+		}
 	}
 	
 	public void DelayAttack(){
@@ -212,4 +233,6 @@ public class Character {
 			Action = "stand";
 		}
 	}
+	
+	
 }
