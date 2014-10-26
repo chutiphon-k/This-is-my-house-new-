@@ -1,9 +1,11 @@
 package ThisIsMyHouse;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
@@ -22,6 +24,9 @@ public class Character {
 	public static Shape recAttack;
 	private Time time = new Time();
 	public static int k = 0;
+	private SpriteSheet Sheet_Walk;
+	private Animation Anima_Walk;
+	public static String qqq = "up";
 	
 	public Character(float x, float y , float vx , float vy) throws SlickException {
 	    this.x = x;
@@ -31,11 +36,17 @@ public class Character {
 	    this.vjump = vy;
 	    rec = new Rectangle(x,y,WIDTH,HEIGHT);
 	    image = new Image("res/Character/Character0.png");
+	    Sheet_Walk = new SpriteSheet("res/Character/q.png",83,110);
+	    Anima_Walk = new Animation(Sheet_Walk,50);
 	}
 	
 	public void render(Graphics g) {
-		image.draw(x,y);
-		g.drawString("Attack : " + k,200, 10);
+		
+		
+		
+		Anima_Walk.draw(x,y);
+		Anima_Walk.stop();
+		g.drawString("score : " + k,200,200);
 	}
 	
 	public void update(GameContainer c,int delta) throws SlickException {
@@ -47,6 +58,8 @@ public class Character {
 	}
 
 	public void MoveLeft() {
+		qqq = "Move";
+		Anima_Walk.start();
 		if(x>0){
 			x -=vx;
 		}
@@ -56,6 +69,8 @@ public class Character {
 	}
 
 	public void MoveRight() {
+		qqq = "Move";
+		Anima_Walk.start();
 		if(x<(GameMain.GAME_WIDTH-WIDTH)){
 			x +=vx;
 		}

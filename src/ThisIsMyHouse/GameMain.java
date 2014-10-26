@@ -38,8 +38,8 @@ public class GameMain extends BasicGame {
 	public static final float DistanceBottomAndPodiumDownCenter = DistanceBottomAndPodiumUpCenter - Podium.HEIGHT;
 	public static final float Monster_JUMP_VY =  (float)7;
 	public static final float Monster_MOVE_VX =  (float)2;
-	public static final int Monster_Amount = 15;
-	public static boolean y = false;
+	public static final int Monster_Amount = 10;
+	public static boolean IsAttack = false;
 	
 	
 	public GameMain(String title) {
@@ -106,10 +106,10 @@ public class GameMain extends BasicGame {
 			updateCharacterMovement(input,delta);
 			for(Monster monsters : monster){
 				monsters.update(c);
-				if(monsters.CheckMonIntersectsChar()&&y){
+				if(monsters.CheckMonIntersectsChar()&&IsAttack){
 					character.Attack();
 					monsters.DestroyMonster();
-					y = false;
+					IsAttack = false;
 				}
 				else if(monsters.CheckMonIntersectsChar()&&Crash){
 					heart.update();
@@ -142,7 +142,7 @@ public class GameMain extends BasicGame {
 			}
 	    }
 	    if(key == Input.KEY_SPACE){
-				y = true;   
+				IsAttack = true;   
 	    }
 	}
 	
