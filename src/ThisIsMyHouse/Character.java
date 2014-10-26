@@ -25,11 +25,16 @@ public class Character {
 	public static String Action = "stand";
 	public static int Caltime2s = 1;
 	public static int CaltimeMax2s = Caltime2s;
-	private SpriteSheet Sheet_Attack;
-	private Animation Anima_Attack;
-	private SpriteSheet Sheet_Walk;
-	private Animation Anima_Walk;
+	private SpriteSheet Sheet_Attack_L;
+	private Animation Anima_Attack_L;
+	private SpriteSheet Sheet_Attack_R;
+	private Animation Anima_Attack_R;
+	private SpriteSheet Sheet_Walk_L;
+	private Animation Anima_Walk_L;
+	private SpriteSheet Sheet_Walk_R;
+	private Animation Anima_Walk_R;
 	public static int PointJump;
+	private String Direction;
 	
 	
 	
@@ -40,19 +45,33 @@ public class Character {
 	    this.vy = vy;
 	    this.vjump = vy;
 	    rec = new Rectangle(x,y,WIDTH,HEIGHT);
-	    image = new Image("res/Character/Character0.png");
-	    Sheet_Attack = new SpriteSheet("res/Character/q.png",83,110);
-	    Anima_Attack = new Animation(Sheet_Attack,100);
-	    Sheet_Walk = new SpriteSheet("res/Character/characterwalk2.png",83,110);
-	    Anima_Walk = new Animation(Sheet_Walk,100);
+	    image = new Image("res/Character/Character0L.png");
+	    Sheet_Attack_L = new SpriteSheet("res/Character/characterattackL.png",83,110);
+	    Anima_Attack_L = new Animation(Sheet_Attack_L,100);
+	    Sheet_Attack_R = new SpriteSheet("res/Character/characterattackR.png",83,110);
+	    Anima_Attack_R = new Animation(Sheet_Attack_R,100);
+	    Sheet_Walk_L = new SpriteSheet("res/Character/characterwalkL.png",83,110);
+	    Anima_Walk_L = new Animation(Sheet_Walk_L,100);
+	    Sheet_Walk_R = new SpriteSheet("res/Character/characterwalkR.png",83,110);
+	    Anima_Walk_R = new Animation(Sheet_Walk_R,100);
 	}
 	
 	public void render(Graphics g) throws SlickException{
 		if(Action == "attack"){
-			Anima_Attack.draw(x,y);
+			if(Direction == "L"){
+				Anima_Attack_L.draw(x,y);
+			}
+			if(Direction == "R"){
+				Anima_Attack_R.draw(x,y);
+			}
 		}
 		else if(Action == "move"){
-			Anima_Walk.draw(x,y);
+			if(Direction == "L"){
+				Anima_Walk_L.draw(x,y);
+			}
+			if(Direction == "R"){
+				Anima_Walk_R.draw(x,y);
+			}
 		}
 		else{
 			image.draw(x,y);
@@ -73,6 +92,7 @@ public class Character {
 
 	public void MoveLeft() {
 		Action = "move";
+		Direction = "L";
 		if(x>0){
 			x -=vx;
 		}
@@ -83,6 +103,7 @@ public class Character {
 
 	public void MoveRight() {
 		Action = "move";
+		Direction = "R";
 		if(x<(GameMain.GAME_WIDTH-WIDTH)){
 			x +=vx;
 		}
@@ -205,21 +226,43 @@ public class Character {
 	
 	public void CharacterAction() throws SlickException{
 		if(Action == "attack"){
-			Anima_Attack.start();
+			if(Direction == "L"){
+				Anima_Attack_L.start();
+			}
+			if(Direction == "R"){
+				Anima_Attack_R.start();
+			}
 		}
 		else if(Action == "stand"){
-			Anima_Attack.stop();
-			Anima_Walk.stop();
-			image.destroy();
-			image = new Image("res/Character/Character0.png");
+			Anima_Attack_L.stop();
+			Anima_Walk_L.stop();
+			Anima_Walk_R.stop();
+			if(Direction == "L"){
+				image.destroy();
+				image = new Image("res/Character/character0L.png");
+			}
+			if(Direction == "R"){
+				image.destroy();
+				image = new Image("res/Character/character0R.png");
+			}
 		}
 		else if(Action == "jump"){
-			image.destroy();
-			image = new Image("res/Character/CharacterJump.png");
+			if(Direction == "L"){
+				image.destroy();
+				image = new Image("res/Character/characterjumpL.png");
+			}
+			if(Direction == "R"){
+				image.destroy();
+				image = new Image("res/Character/characterjumpR.png");
+			}
 		}
 		else if(Action == "move"){
-			Anima_Walk.start();
-			//Action = "stand";
+			if(Direction == "L"){
+				Anima_Walk_L.start();
+			}
+			if(Direction == "R"){
+				Anima_Walk_R.start();
+			}
 		}
 	}
 	
