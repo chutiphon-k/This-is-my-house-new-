@@ -36,7 +36,9 @@ public class SetupClass extends StateBasedGame{
 	@Override
 	public void initStatesList(GameContainer arg0) throws SlickException {
 		// TODO Auto-generated method stub
+		this.addState(new GameStart());
 		this.addState(new GameMain());
+		this.addState(new GameEnd());
 	}
 
 }

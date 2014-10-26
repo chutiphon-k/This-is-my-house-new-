@@ -38,6 +38,6 @@ public class Heart {
 		if(i==0){
 		return true;//false
 		}
-		return true;
+		return false;
 	}
 }
