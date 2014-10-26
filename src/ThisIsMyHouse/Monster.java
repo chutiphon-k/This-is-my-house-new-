@@ -60,43 +60,51 @@ public class Monster {
 	
 	public void Movement(){
 		if(CheckAreaBottom(y) && CheckAreaBottom(Character.y)){
-			//Direction = RandomMovement();
+			Direction = RandomMovement();
 			if(x<=character.x){
+				Direction = "R";
 				MoveRight();
 			}
 			if(x>character.x){
+				Direction = "L";
 				MoveLeft();
 			}	
 		}
 		
 		else if(CheckAreaMiddle(y) && CheckAreaMiddle(Character.y) && Character.x<=Podium.WIDTH && x<=Podium.WIDTH){
-			//Direction = RandomMovement();
+			Direction = RandomMovement();
 			if(Character.x<=Podium.WIDTH && x<=Podium.WIDTH){
 				if(x<=character.x){
+					Direction = "R";
 					MoveRight();
 				}
 				if(x>character.x){
+					Direction = "L";
 					MoveLeft();
 				}
 			}
 		}
 		
 		else if(CheckAreaMiddle(y) && CheckAreaMiddle(Character.y) && Character.x>=GameMain.GAME_WIDTH - Podium.WIDTH - Character.WIDTH && x>=GameMain.GAME_WIDTH - Podium.WIDTH ){
-			//Direction = RandomMovement();
+			Direction = RandomMovement();
 			if(x<=character.x){
+				Direction = "R";
 				MoveRight();
 			}
 			if(x>character.x){
+				Direction = "L";
 				MoveLeft();
 			}
 		}
 		
 		else if(CheckAreaTop(y) && CheckAreaTop(Character.y)){
-			//Direction = RandomMovement();
+			Direction = RandomMovement();
 			if(x<=character.x){
+				Direction = "R";
 				MoveRight();
 			}
 			if(x>character.x){
+				Direction = "L";
 				MoveLeft();
 			}
 		}
