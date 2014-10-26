@@ -19,14 +19,15 @@ public class Character {
 	public static final int WIDTH = 83;
 	public static final int WIDTH_Attack = 10;
 	public static final int HEIGHT = 110;
-	public static int PointJump;
 	public static Shape rec;
 	public static Shape recAttack;
 	private Time time = new Time();
 	public static int k = 0;
 	private SpriteSheet Sheet_Walk;
 	private Animation Anima_Walk;
-	public static String qqq = "up";
+	public static String Action = "stand";
+	public static int Caltime2s = 3;
+	public static int CaltimeMax2s = Caltime2s;
 	
 	public Character(float x, float y , float vx , float vy) throws SlickException {
 	    this.x = x;
@@ -40,13 +41,13 @@ public class Character {
 	    Anima_Walk = new Animation(Sheet_Walk,50);
 	}
 	
-	public void render(Graphics g) {
-		
-		
-		
-		Anima_Walk.draw(x,y);
-		Anima_Walk.stop();
+	public void render(Graphics g) throws SlickException{
+		CharacterAction();
+		if(Action != "move"){
+		image.draw(x,y);
+		}
 		g.drawString("score : " + k,200,200);
+		g.drawString("Action : " + Action,300,00);
 	}
 	
 	public void update(GameContainer c,int delta) throws SlickException {
@@ -58,18 +59,18 @@ public class Character {
 	}
 
 	public void MoveLeft() {
-		qqq = "Move";
+		Action = "move";
 		Anima_Walk.start();
 		if(x>0){
-			x -=vx;
+			x -= vx;
 		}
 		else{
-			x =0;
+			x = 0;
 		}
 	}
 
 	public void MoveRight() {
-		qqq = "Move";
+		Action = "move";
 		Anima_Walk.start();
 		if(x<(GameMain.GAME_WIDTH-WIDTH)){
 			x +=vx;
@@ -80,11 +81,9 @@ public class Character {
 	}
 
 	public void jumpUp() throws SlickException {
-		image.destroy();
-		image = new Image("res/Character/CharacterJump.png");
-		if(PointJump==1){
+		if(Action == "stand"){
 			vy = -vjump;
-			PointJump = 0;
+			Action = "jump";
 		}
 	}
 	
@@ -100,9 +99,7 @@ public class Character {
 		if(y>=GameMain.GAME_HEIGHT_ASSUM-HEIGHT){
 			y = GameMain.GAME_HEIGHT_ASSUM-HEIGHT;
 			vy=0;
-			PointJump = 1;
-			image.destroy();
-			image = new Image("res/Character/Character0.png");
+			Action = "stand";
 		}
 		if(y<=0){
 			y = 0;
@@ -110,11 +107,11 @@ public class Character {
 		}
 		if(x>=Podium.WIDTH + 25 - Character.WIDTH && x<=GameMain.GAME_WIDTH - Podium.WIDTH - 25 
 				&& (y<GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumDown  - HEIGHT/2 && y> GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumUp- HEIGHT)){
-			PointJump = 0;
+			Action = "jump";
 		}
 		if(((x<GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 - Character.WIDTH +25 && x>=0) || (x>GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - 25 && x<=GameMain.GAME_WIDTH))
 				&& (y<=GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumDownCenter  && y> GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumUpCenter  - HEIGHT)){
-			PointJump = 0;
+			Action = "jump";
 		}
 	}
 	
@@ -170,9 +167,7 @@ public class Character {
 		else if(ColliderWithPodiumUp()==true){
 			y = GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumUp- HEIGHT ;
 			vy = 0;
-			PointJump = 1;
-			image.destroy();
-			image = new Image("res/Character/Character0.png");
+			Action = "stand";
 		}
 		if(ColliderWithPodiumDownCenter()==true){
 			y = GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumDownCenter;
@@ -181,11 +176,37 @@ public class Character {
 		else if(ColliderWithPodiumUpCenter()==true){
 			y = GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumUpCenter - HEIGHT;
 			vy = 0;
-			PointJump = 1;
-			image.destroy();
-			image = new Image("res/Character/Character0.png");
+				Action = "stand";
 		}
 	}
 	
-		
+	public void CharacterAction() throws SlickException{
+		if(Action == "attack"){
+			image.destroy();
+			image = new Image("res/Character/characterattack.png");
+		}
+		else if(Action == "stand"){
+			Anima_Walk.stop();
+			image.destroy();
+			image = new Image("res/Character/Character0.png");
+		}
+		else if(Action == "jump"){
+			image.destroy();
+			image = new Image("res/Character/CharacterJump.png");
+		}
+		else if(Action == "move"){
+			Anima_Walk.draw(x,y);
+			Action = "stand";
+		}
+	}
+	
+//	public void DelayAttack(){
+//		if(time.getOneSec()==1){
+//			--Caltime2s;
+//		}
+//		if(Caltime2s==0){
+//			Caltime2s = CaltimeMax2s;
+//			Action = "stand";
+//		}
+//	}
 }

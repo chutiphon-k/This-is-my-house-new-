@@ -142,7 +142,8 @@ public class GameMain extends BasicGame {
 			}
 	    }
 	    if(key == Input.KEY_SPACE){
-				IsAttack = true;   
+				IsAttack = true;
+				Character.Action = "attack";
 	    }
 	}
 	
