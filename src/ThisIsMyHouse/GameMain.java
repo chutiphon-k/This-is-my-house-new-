@@ -35,11 +35,12 @@ public class GameMain extends BasicGameState {
 	public static final float Monster_MOVE_VX =  (float)2;
 	public static final int Monster_Amount = 10;
 	public static boolean IsAttack = false;
-	public static int Monster_Rest = 50;
+	public static int Monster_Rest = 1;
 	public static final int platform = SetupClass.platform;
 	public static final int GAME_WIDTH = SetupClass.GAME_WIDTH;
 	public static final int GAME_HEIGHT = SetupClass.GAME_HEIGHT;
 	public static final int GAME_HEIGHT_ASSUM = SetupClass.GAME_HEIGHT - platform;
+	public static int Time;
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
@@ -93,10 +94,11 @@ public class GameMain extends BasicGameState {
 				}
 			}
 			DelayMonsterCrash();
-			time.setCurrentTime();
-			if(heart.CheckHeart()){
+			if(heart.CheckHeart() || Monster_Rest == 0){
+				Time = time.getTime();
 				sbg.enterState(2,new BlobbyTransition(Color.darkGray),new BlobbyTransition());
 			}
+			time.setCurrentTime();
 	}
 	
 	public static void updateCharacterMovement(Input input, int delta){
