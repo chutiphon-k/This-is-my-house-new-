@@ -74,7 +74,7 @@ public class GameMain extends BasicGame {
 				dimensions.render();
 			}
 			character.render(g);
-			//
+			
 			for(Monster monsters : monster){
 				monsters.render(g);
 			}

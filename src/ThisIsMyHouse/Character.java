@@ -26,8 +26,10 @@ public class Character {
 	private SpriteSheet Sheet_Walk;
 	private Animation Anima_Walk;
 	public static String Action = "stand";
-	public static int Caltime2s = 3;
+	public static int Caltime2s = 1;
 	public static int CaltimeMax2s = Caltime2s;
+	public static int PointJump;
+	
 	
 	public Character(float x, float y , float vx , float vy) throws SlickException {
 	    this.x = x;
@@ -43,9 +45,7 @@ public class Character {
 	
 	public void render(Graphics g) throws SlickException{
 		CharacterAction();
-		if(Action != "move"){
 		image.draw(x,y);
-		}
 		g.drawString("score : " + k,200,200);
 		g.drawString("Action : " + Action,300,00);
 	}
@@ -55,23 +55,20 @@ public class Character {
 		rec.setLocation(x, y);
 		Jump();
 		collider();
+		DelayAttack();
 		time.setCurrentTime();
 	}
 
 	public void MoveLeft() {
-		Action = "move";
-		Anima_Walk.start();
 		if(x>0){
-			x -= vx;
+			x -=vx;
 		}
 		else{
-			x = 0;
+			x =0;
 		}
 	}
 
 	public void MoveRight() {
-		Action = "move";
-		Anima_Walk.start();
 		if(x<(GameMain.GAME_WIDTH-WIDTH)){
 			x +=vx;
 		}
@@ -99,7 +96,9 @@ public class Character {
 		if(y>=GameMain.GAME_HEIGHT_ASSUM-HEIGHT){
 			y = GameMain.GAME_HEIGHT_ASSUM-HEIGHT;
 			vy=0;
+			if(Action != "attack"){
 			Action = "stand";
+			}
 		}
 		if(y<=0){
 			y = 0;
@@ -167,7 +166,9 @@ public class Character {
 		else if(ColliderWithPodiumUp()==true){
 			y = GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumUp- HEIGHT ;
 			vy = 0;
+			if(Action != "attack"){
 			Action = "stand";
+			}
 		}
 		if(ColliderWithPodiumDownCenter()==true){
 			y = GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumDownCenter;
@@ -176,7 +177,9 @@ public class Character {
 		else if(ColliderWithPodiumUpCenter()==true){
 			y = GameMain.GAME_HEIGHT_ASSUM - GameMain.DistanceBottomAndPodiumUpCenter - HEIGHT;
 			vy = 0;
-				Action = "stand";
+			if(Action != "attack"){
+			Action = "stand";
+			}
 		}
 	}
 	
@@ -186,7 +189,7 @@ public class Character {
 			image = new Image("res/Character/characterattack.png");
 		}
 		else if(Action == "stand"){
-			Anima_Walk.stop();
+			//Anima_Walk.stop();
 			image.destroy();
 			image = new Image("res/Character/Character0.png");
 		}
@@ -194,19 +197,19 @@ public class Character {
 			image.destroy();
 			image = new Image("res/Character/CharacterJump.png");
 		}
-		else if(Action == "move"){
-			Anima_Walk.draw(x,y);
+//		else if(Action == "move"){
+//			Anima_Walk.draw(x,y);
+//			Action = "stand";
+//		}
+	}
+	
+	public void DelayAttack(){
+		if(time.getOneSec()==1){
+			Caltime2s -= 1;
+		}
+		if(Caltime2s==0){
+			Caltime2s = CaltimeMax2s;
 			Action = "stand";
 		}
 	}
-	
-//	public void DelayAttack(){
-//		if(time.getOneSec()==1){
-//			--Caltime2s;
-//		}
-//		if(Caltime2s==0){
-//			Caltime2s = CaltimeMax2s;
-//			Action = "stand";
-//		}
-//	}
 }
