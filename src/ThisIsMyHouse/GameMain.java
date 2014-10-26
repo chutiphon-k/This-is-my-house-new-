@@ -60,6 +60,7 @@ public class GameMain extends BasicGameState {
 			throws SlickException {
 			BGImage.draw(0,0);
 			g.drawString("Time : " + time.getTime() + " second",100, 10);
+			g.drawString("Monster : " + Monster_Rest,100,30);
 			for (Podium podiums : podium) {
 				podiums.render();
 			}
@@ -83,7 +84,7 @@ public class GameMain extends BasicGameState {
 			updateCharacterMovement(input,delta);
 			for(Monster monsters : monster){
 				monsters.update(c);
-				if(monsters.CheckMonIntersectsChar()&&c.getInput().isKeyPressed(Input.KEY_SPACE)){
+				if(monsters.CheckMonIntersectsCharAttack()&&c.getInput().isKeyPressed(Input.KEY_SPACE)){
 					character.Attack();
 					monsters.DestroyMonster();
 					IsAttack = false;

@@ -7,15 +7,15 @@ public class Heart {
 	private float x;
 	private float y;
 	private Image image;
-	public static final int WIDTH = 180;
+	public static final int WIDTH = 300;
 	public static final int HEIGHT = 60;
-	public static int Heart_Amount = 3;
+	public static int Heart_Amount = 5;
 	
 	public Heart(float x, float y){
 	    this.x = x;
 	    this.y = y;
 	    try {
-			image = new Image("res/Heart/3Heart.png");
+			image = new Image("res/Heart/heart5.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -30,7 +30,7 @@ public class Heart {
 		--Heart_Amount;
 		if(Heart_Amount>=0){
 			image.destroy();
-			image = new Image("res/Heart/" + Heart_Amount + "Heart.png");
+			image = new Image("res/Heart/heart"+Heart_Amount+".png");
 		}	
 	}
 	

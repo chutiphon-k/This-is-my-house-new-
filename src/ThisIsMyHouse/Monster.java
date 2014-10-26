@@ -30,7 +30,6 @@ public class Monster {
 	}
 	
 	public Monster(float vx , float vy) throws SlickException {
-		
 		RandomPosition();
 	    this.vx = vx;
 	    this.vy = vy;
@@ -308,6 +307,15 @@ public class Monster {
 	
 	public boolean CheckMonIntersectsChar(){
 		if((this.rec).intersects(Character.rec)){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public boolean CheckMonIntersectsCharAttack(){
+		if((this.rec).intersects(Character.recAttack)){
 			return true;
 		}
 		else{

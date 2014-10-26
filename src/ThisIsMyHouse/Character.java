@@ -45,6 +45,7 @@ public class Character {
 	    this.vy = vy;
 	    this.vjump = vy;
 	    rec = new Rectangle(x,y,WIDTH,HEIGHT);
+	    recAttack = new Rectangle(x-20,y,WIDTH+40,HEIGHT);
 	    image = new Image("res/Character/Character0L.png");
 	    Sheet_Attack_L = new SpriteSheet("res/Character/characterattackL.png",83,110);
 	    Anima_Attack_L = new Animation(Sheet_Attack_L,100);
@@ -77,13 +78,12 @@ public class Character {
 			image.draw(x,y);
 		}
 		CharacterAction();
-		g.drawString("score : " + GameMain.Monster_Rest,200,200);
-		g.drawString("Action : " + Action,300,00);
 	}
 	
 	public void update(GameContainer c,int delta) throws SlickException {
 		time.update(delta);
 		rec.setLocation(x, y);
+		recAttack.setLocation(x-20, y);
 		Jump();
 		collider();
 		DelayAttack();
