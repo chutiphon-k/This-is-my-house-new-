@@ -62,11 +62,9 @@ public class Monster {
 		if(CheckAreaBottom(y) && CheckAreaBottom(Character.y)){
 			Direction = RandomMovement();
 			if(x<=character.x){
-				Direction = "R";
 				MoveRight();
 			}
 			if(x>character.x){
-				Direction = "L";
 				MoveLeft();
 			}	
 		}
@@ -75,11 +73,9 @@ public class Monster {
 			Direction = RandomMovement();
 			if(Character.x<=Podium.WIDTH && x<=Podium.WIDTH){
 				if(x<=character.x){
-					Direction = "R";
 					MoveRight();
 				}
 				if(x>character.x){
-					Direction = "L";
 					MoveLeft();
 				}
 			}
@@ -88,11 +84,9 @@ public class Monster {
 		else if(CheckAreaMiddle(y) && CheckAreaMiddle(Character.y) && Character.x>=GameMain.GAME_WIDTH - Podium.WIDTH - Character.WIDTH && x>=GameMain.GAME_WIDTH - Podium.WIDTH ){
 			Direction = RandomMovement();
 			if(x<=character.x){
-				Direction = "R";
 				MoveRight();
 			}
 			if(x>character.x){
-				Direction = "L";
 				MoveLeft();
 			}
 		}
@@ -100,11 +94,9 @@ public class Monster {
 		else if(CheckAreaTop(y) && CheckAreaTop(Character.y)){
 			Direction = RandomMovement();
 			if(x<=character.x){
-				Direction = "R";
 				MoveRight();
 			}
 			if(x>character.x){
-				Direction = "L";
 				MoveLeft();
 			}
 		}
@@ -124,10 +116,12 @@ public class Monster {
 		if(x>0){
 			if(CheckAreaBottom(y)){
 				x -=vx;
+				Direction = "L";
 			}
 			
 			if(CheckAreaMiddle(y)&& (x<=Podium.WIDTH || x>=GameMain.GAME_WIDTH - Podium.WIDTH)){
 				x -=vx;
+				Direction = "L";
 			}
 			if(CheckAreaMiddle(y) && (x<GameMain.GAME_WIDTH - Podium.WIDTH && x>=GameMain.GAME_WIDTH - Podium.WIDTH - vx)){
 				x = GameMain.GAME_WIDTH - Podium.WIDTH;
@@ -136,6 +130,7 @@ public class Monster {
 			
 			if(CheckAreaTop(y) && (x>=GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 && x<=GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - WIDTH)){
 				x -=vx;
+				Direction = "L";
 			}
 			if(CheckAreaTop(y) && (x<GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 && x>=GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 - vx)){
 				x = GameMain.GAME_WIDTH/2 - Podium.WIDTH/2;
@@ -152,10 +147,12 @@ public class Monster {
 		if(x<GameMain.GAME_WIDTH-WIDTH){
 			if(CheckAreaBottom(y)){
 				x +=vx;
+				Direction = "R";
 			}
 			
 			if(CheckAreaMiddle(y) && (x<=Podium.WIDTH || x>=GameMain.GAME_WIDTH - Podium.WIDTH)){
 				x +=vx;
+				Direction = "R";
 			}
 			if(CheckAreaMiddle(y) && x>Podium.WIDTH - WIDTH && x<=Podium.WIDTH - WIDTH + vx){
 				x = Podium.WIDTH - WIDTH;
@@ -164,6 +161,7 @@ public class Monster {
 			
 			if(CheckAreaTop(y) && (x>=GameMain.GAME_WIDTH/2 - Podium.WIDTH/2 && x<=GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - WIDTH)){
 				x +=vx;
+				Direction = "R";
 			}
 			if(CheckAreaTop(y) && (x>GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - WIDTH && x<=GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - WIDTH + vx)){
 				x = GameMain.GAME_WIDTH/2 + Podium.WIDTH/2 - WIDTH;
