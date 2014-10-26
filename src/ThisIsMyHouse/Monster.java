@@ -37,11 +37,17 @@ public class Monster {
 	    this.vjump = RandomJumpHeight();
 	    Direction = RandomMovement();
 	    rec = new Rectangle(x,y,80,65);
-	    image = new Image("res/Monster/slime0.png");
+	    image = new Image("res/Monster/slime0R.png");
 	    RandomVX();
 	}
 	
 	public void render(Graphics g) throws SlickException {
+		if(Direction == "L"){
+			image = new Image("res/Monster/slime0L.png");
+		}
+		if(Direction == "R"){
+			image = new Image("res/Monster/slime0R.png");
+		}
 		image.draw(x,y);
 	}
 	
@@ -54,7 +60,7 @@ public class Monster {
 	
 	public void Movement(){
 		if(CheckAreaBottom(y) && CheckAreaBottom(Character.y)){
-			Direction = RandomMovement();
+			//Direction = RandomMovement();
 			if(x<=character.x){
 				MoveRight();
 			}
@@ -64,7 +70,7 @@ public class Monster {
 		}
 		
 		else if(CheckAreaMiddle(y) && CheckAreaMiddle(Character.y) && Character.x<=Podium.WIDTH && x<=Podium.WIDTH){
-			Direction = RandomMovement();
+			//Direction = RandomMovement();
 			if(Character.x<=Podium.WIDTH && x<=Podium.WIDTH){
 				if(x<=character.x){
 					MoveRight();
@@ -76,7 +82,7 @@ public class Monster {
 		}
 		
 		else if(CheckAreaMiddle(y) && CheckAreaMiddle(Character.y) && Character.x>=GameMain.GAME_WIDTH - Podium.WIDTH - Character.WIDTH && x>=GameMain.GAME_WIDTH - Podium.WIDTH ){
-			Direction = RandomMovement();
+			//Direction = RandomMovement();
 			if(x<=character.x){
 				MoveRight();
 			}
@@ -86,7 +92,7 @@ public class Monster {
 		}
 		
 		else if(CheckAreaTop(y) && CheckAreaTop(Character.y)){
-			Direction = RandomMovement();
+			//Direction = RandomMovement();
 			if(x<=character.x){
 				MoveRight();
 			}
