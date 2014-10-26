@@ -58,8 +58,6 @@ public class GameMain extends BasicGameState {
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g)
 			throws SlickException {
 			BGImage.draw(0,0);
-//			color  = new Color(255,0,0);
-//			g.setColor(color);
 			g.drawString("Time : " + time.getTime() + " second",100, 10);
 			for (Podium podiums : podium) {
 				podiums.render();
@@ -97,7 +95,7 @@ public class GameMain extends BasicGameState {
 			DelayMonsterCrash();
 			time.setCurrentTime();
 			if(heart.CheckHeart()){
-				sbg.enterState(2,new BlobbyTransition(Color.green),new BlobbyTransition());
+				sbg.enterState(2,new BlobbyTransition(Color.darkGray),new BlobbyTransition());
 			}
 	}
 	

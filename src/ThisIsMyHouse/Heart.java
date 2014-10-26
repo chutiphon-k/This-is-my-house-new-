@@ -9,7 +9,7 @@ public class Heart {
 	private Image image;
 	public static final int WIDTH = 180;
 	public static final int HEIGHT = 60;
-	public static int i=3;
+	public static int Heart_Amount = 3;
 	
 	public Heart(float x, float y){
 	    this.x = x;
@@ -27,16 +27,16 @@ public class Heart {
 	}
 	
 	public void update() throws SlickException{
-		--i;
-		if(i>=0){
+		--Heart_Amount;
+		if(Heart_Amount>=0){
 			image.destroy();
-			image = new Image("res/Heart/" + i + "Heart.png");
+			image = new Image("res/Heart/" + Heart_Amount + "Heart.png");
 		}	
 	}
 	
 	public boolean CheckHeart(){
-		if(i==0){
-		return true;//false
+		if(Heart_Amount==0){
+			return true;
 		}
 		return false;
 	}
